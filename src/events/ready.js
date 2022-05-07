@@ -7,6 +7,10 @@ module.exports = {
             client.user.setActivity(`!help | ${client.guilds.cache.size} servers`, { type: 'WATCHING' });
         }, 10000);
 
+        //autoMessage
+
+        await functions.autoMessage(client, '746856547086499893')
+
         database.query('SELECT * FROM GuildConfig', (err, result) => {
             if (err) {
                 console.log(err);

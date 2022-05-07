@@ -27,14 +27,14 @@ module.exports = {
 				if(member.roles.cache.has(role.id)) {
 					console.log(member.user.username)
 					counter++;
-					memberss +=  `[ ${counter} ] - ${member.user.tag} ( ${member.id} ) \n`
+					memberss +=  `<@${member.id}> 🟡 ` + '`' + member.user.tag + '`' + `\n`;
 				}
 			}
-			console.log(memberss);
+
 			const embed = new MessageEmbed();
 			embed.setAuthor({name: client.user.username, iconURL: client.user.displayAvatarURL()});
-			embed.setTitle('**❗Members**\n--------------');
-			embed.addField(`➡️ Members:`, '```' + memberss + '```');
+			embed.addField(`⬇️ Members:`, memberss);
+			embed.setColor('#fcba03')
 			message.reply({ embeds: [embed]});
 
 		} catch (error) {

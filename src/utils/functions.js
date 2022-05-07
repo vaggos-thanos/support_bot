@@ -1,4 +1,6 @@
 const colors = require('ansi-colors');
+const { MessageEmbed } = require('discord.js');
+
 async function log(str) {
     function formatDate(date) {
         var day = date.getDate();
@@ -113,6 +115,39 @@ async function isAuthor(id) {
     return false
 }
 
+async function autoMessage(client, guildId) {
+    try {
+        const guild = client.guilds.cache.get(guildId);
+        const channel = guild.channels.cache.get('746856547086499896')
+        const channel1 = guild.channels.cache.get('970199739092070400')
+        const message = "👋 Γειά σας @everyone, Εαν θέλετε να βρείτε τα Socials μου, τοτε τσεκάρετε αυτό το link (https://tiny.cc/golld3n) οπου εκεί βρίσκονται όλοι οι συνδέσμοι και τα προσωπικά μου socials."
+        const time = 1000 * 60 * 60 * 24 // 1 day
+        //sendMessage(channel, channel1, message)
+
+        setInterval(() => {
+            sendMessage(channel, channel1, message)
+        }, time);
+
+        async function sendMessage(channel, channel1, message) {
+            if(channel != undefined) {
+                const embed = new MessageEmbed();
+                embed.setDescription(message);
+                embed.setColor('#fcba03')
+                embed.setTimestamp()
+                embed.setThumbnail(guild.iconURL())
+    
+                channel.send({embeds: [embed]})
+                channel.send('@everyone')
+                channel1.send({embeds: [embed]})
+                channel1.send('@everyone')
+
+            }
+        }
+    } catch (error) {
+        log(error);
+    }
+}
+
 module.exports = {
     sleep,
     log,
@@ -120,5 +155,6 @@ module.exports = {
     deleteDB,
     updateDB,
     isAdmin,
-    isAuthor
+    isAuthor,
+    autoMessage
 }

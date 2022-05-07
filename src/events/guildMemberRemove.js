@@ -42,7 +42,7 @@ module.exports = {
         // Slightly smaller text placed above the member's display name
         ctx.font = '28px sans-serif';
         ctx.fillStyle = '#28e0c8';
-        ctx.fillText('Welcome to the server,', canvas.width / 2.5, canvas.height / 2.2);
+        ctx.fillText('Goodbye ,', canvas.width / 2.5, canvas.height / 2.2);
 
         // Add an exclamation point here and below
         ctx.font = applyText(canvas, `${member.displayName}!`);

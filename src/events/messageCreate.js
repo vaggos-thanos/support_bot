@@ -26,6 +26,8 @@ module.exports = {
                 }
             }
         }
+
+        if(functions.isAdmin(message.member.user) == false) return functions.log("The user " + message.author.username + " in " + message.guild.name + " (" + message.guild.id + ") tried to use a command but is not an admin")
         
         if (message.content.startsWith(prefix)) {
             const [cmdName, ...cmdArgs] = message.content

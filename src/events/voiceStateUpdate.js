@@ -14,7 +14,7 @@ module.exports = {
         if(userID === member.id){
           const channel1 = guildConfig[2]
           if(newUserChannel === channel1) {
-            guild.channels.create(`${member.user.username} support room`, {
+            guild.channels.create(`📞 ${member.user.username} support room`, {
               type: 'GUILD_VOICE',
               permissionOverwrites: [{
                 id: guild.id,
@@ -28,7 +28,7 @@ module.exports = {
               member.voice.setChannel(channel1)
             }).catch(console.error);
           }        
-          const userchannel = await guild.channels.cache.find(c => c.name === `${member.user.username} support room` )
+          const userchannel = await guild.channels.cache.find(c => c.name === `📞 ${member.user.username} support room` )
           if(userchannel === undefined) return;
           if(oldUserChannel === userchannel.id && newUserChannel !== userchannel.id){
             userchannel.delete();
