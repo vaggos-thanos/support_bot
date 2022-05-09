@@ -144,6 +144,7 @@ async function autoMessage(client, guildId) {
             }
         }
     } catch (error) {
+        console.log(error);
         log(error);
     }
 }

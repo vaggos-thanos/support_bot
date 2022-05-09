@@ -9,7 +9,7 @@ module.exports = {
         const guildConfig = await client.GuildConfigs.get(member.guild.id);
 
         let myGuild = member.guild
-        let channel = myGuild.channels.cache.get(guildConfig[3]);
+        let channel = myGuild.channels.cache.get(guildConfig[5]);
         
         const applyText = (canvas, text) => {
             const ctx = canvas.getContext('2d');

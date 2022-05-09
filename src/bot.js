@@ -1,8 +1,6 @@
 require('dotenv').config();
 require('./database/database')
 global.functions = require('./utils/functions')
-const Constants = require('discord.js/src/util/Constants.js');
-Constants.DefaultOptions.ws.properties.$browser = `Discord Android` //or Discord iOS
 const { eventHandler, CommandHandler } = require('./utils');
 const { Client, Intents, Collection} = require('discord.js');
 const client = new Client({

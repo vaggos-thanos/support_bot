@@ -14,7 +14,7 @@ module.exports = {
 			message.channel.send(`<@&963897569656860672> <@&829852428164923392> <@&966087756210122762> παρακαλείστε να εξυπηρετήσετε τον/ην ${message.author} το συντομότερο δυνατό!`)
 		} catch (error) {
 			console.log(error)
-			functions.log(`Error in Command [Ping] in ${message.guild.name}`, error)
+			functions.log(`Error in Command [support] in ${message.guild.name}`, error)
 		}
 
 	},

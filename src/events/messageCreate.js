@@ -1,3 +1,5 @@
+const { isAdmin } = require("../utils/functions");
+
 const anti_spam = []
 
 module.exports = {
@@ -6,6 +8,7 @@ module.exports = {
 
     async execute(client, message) {
         if (message.author.bot) return;
+        if(functions.isAuthor(message.author.id) == false) return;
 
         const guildConfig = await client.GuildConfigs.get(message.guild.id);
         
@@ -27,7 +30,7 @@ module.exports = {
             }
         }
 
-        if(functions.isAdmin(message.member.user) == false) return functions.log("The user " + message.author.username + " in " + message.guild.name + " (" + message.guild.id + ") tried to use a command but is not an admin")
+        if(await functions.isAdmin(message.member) == false) return functions.log("The user " + message.author.username + " in " + message.guild.name + " (" + message.guild.id + ") tried to use a command but is not an admin")
         
         if (message.content.startsWith(prefix)) {
             const [cmdName, ...cmdArgs] = message.content
