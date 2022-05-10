@@ -3,7 +3,7 @@ const { MessageEmbed } = require('discord.js');
 module.exports = {
     name: 'roles',
     category: 'info',
-    runCommand: false,
+    runCommand: true,
     cooldown: 5, /* secoonds */
     description: 'Show the roles of the server',
 
