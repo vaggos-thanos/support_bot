@@ -30,7 +30,6 @@ module.exports = {
             }
         }
 
-        if(await functions.isAdmin(message.member) == false) return functions.log("The user " + message.author.username + " in " + message.guild.name + " (" + message.guild.id + ") tried to use a command but is not an admin")
         
         if (message.content.startsWith(prefix)) {
             const [cmdName, ...cmdArgs] = message.content
@@ -38,7 +37,9 @@ module.exports = {
                 .trim()
                 .split(/\s+/);
             const command = client.commands.get(cmdName);
-            
+            console.log(cmdName != 'support' && await functions.isAdmin(message.member) == false)
+            if(cmdName != 'support' && await functions.isAdmin(message.member) == false) return functions.log("The user " + message.author.username + " in " + message.guild.name + " (" + message.guild.id + ") tried to use a command but is not an admin")
+            console.log(cmdName, ' used in ', message.guild.name, ' by ', message.author.username)
             if (command) {
                 if (command.cooldown == undefined) {
                     command.cooldown = 1

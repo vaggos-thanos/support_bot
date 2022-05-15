@@ -121,7 +121,7 @@ async function autoMessage(client, guildId) {
         const channel = guild.channels.cache.get('746856547086499896')
         const channel1 = guild.channels.cache.get('970199739092070400')
         const message = "👋 Γειά σας @everyone, Εαν θέλετε να βρείτε τα Socials μου, τοτε τσεκάρετε αυτό το link (https://tiny.cc/golld3n) οπου εκεί βρίσκονται όλοι οι συνδέσμοι και τα προσωπικά μου socials."
-        const time = 1000 * 60 * 60 * 24 // 1 day
+        const time = 1000 * 60 * 60 * 24 * 2 // 1 day
         //sendMessage(channel, channel1, message)
 
         setInterval(() => {
