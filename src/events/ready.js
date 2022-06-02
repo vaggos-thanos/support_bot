@@ -35,5 +35,8 @@ module.exports = {
                 }
             }
         });
+
+        const { register } = require('../utils/slash_commands_builder')
+        //register(client.user.id, '746856547086499893', 'local')
     }
 }

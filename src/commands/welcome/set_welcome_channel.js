@@ -6,21 +6,19 @@ module.exports = {
     runCommand: true,
     cooldown: 5, /* secoonds */
     description: 'Set the welcome channel for the server',
-
-    run: async (client, message, args) => {
-        if(functions.isAdmin(message.member)) {
-            let channel = message.mentions.channels.first();
-            if(channel == undefined) {
-                message.reply("Please mention a channel!").then(msg => {
-                    setTimeout(() => {
-                        msg.delete();
-                        message.delete();
-                    }, 5000);
-                });
-                return;
-            }
-
-            const guildConfig = await client.GuildConfigs.get(message.guild.id);
+    data: new SlashCommandBuilder()
+        .setName('set_welcome_channel')
+        .setDescription('Set the welcome channel for the server')
+        .addChannelOption(option => 
+            option.setName('channel')
+                .setDescription('The channel to set as the welcome channel')
+                .setRequired(true)
+        ),
+    async execute (client, interaction) {
+        if(functions.isAdmin(interaction.member)) {
+            let channel = interaction.options.getChannel('channel');
+            const guildConfig = await client.GuildConfigs.get(interaction.guild.id);
+            
             if(channel) {
                 functions.updateDB(
                     client, 
@@ -28,14 +26,13 @@ module.exports = {
                     'welcome_channel_id', 
                     channel.id, 
                     'GuildConfigs', 
-                    (message.guild.id, [message.guild.id, guildConfig[1], guildConfig[2], channel.id, guildConfig[4], guildConfig[5], guildConfig[6]]), 
+                    (interaction.guild.id, [interaction.guild.id, guildConfig[1], guildConfig[2], channel.id, guildConfig[4], guildConfig[5], guildConfig[6]]), 
                     'guild_id', 
-                    message.guild.id
+                    interaction.guild.id
                 );
-                message.reply("Welcome channel set to " + channel.name).then(msg => {
-                    setTimeout(() => {
-                        msg.delete();
-                        message.delete();
+                interaction.reply("Welcome channel set to " + channel.name).then(msg => {
+                    setTimeout(async () => {
+                        await interaction.deleteReply();
                     }, 5000);
                 });
             }

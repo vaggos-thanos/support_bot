@@ -1,28 +1,41 @@
 const { MessageEmbed } = require('discord.js');
+const { SlashCommandBuilder } = require('@discordjs/builders');
 
 module.exports = {
     name: 'say',
-    category: 'info',
+    category: 'welcome',
     runCommand: true,
     cooldown: 5, /* secoonds */
     description: 'Say something',
-
-    run: async (client, message, args) => { 
+ 
+    data: new SlashCommandBuilder()
+    .setName('say')
+    .setDescription('Say something')
+    .addStringOption(option => 
+        option.setName('message')
+        .setDescription('The message to say')
+        .setRequired(true)
+    ),
+    async execute (client, interaction) {
         try {
-            message.delete();
-            if(functions.isAdmin(message.member)) {
+			await interaction.deferReply();
+
+            const test = interaction.options.getString('message');
+
+            if(functions.isAdmin(interaction.member)) {
                 const embed = new MessageEmbed();
                 embed.setAuthor({name: client.user.username, iconURL: client.user.displayAvatarURL()});
-                embed.setDescription(args.join(" "));
+                embed.setDescription(test);
                 embed.setColor('#fcba03')
                 embed.setTimestamp()
                 embed.setThumbnail(client.user.displayAvatarURL())
-                message.channel.send({ embeds: [embed]});
+                interaction.editReply({ embeds: [embed]});
             }
 
         } catch (error) {
-            functions.log(`Error in Command [say] in ${message.guild.name}`, error)
+            console.error(error);
+            functions.log(`Error in Command [say] in ${interaction.guild.name}`, error)
         }
 
-	},
+    }
 };

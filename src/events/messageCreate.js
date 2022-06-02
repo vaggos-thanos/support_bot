@@ -3,7 +3,7 @@ const { isAdmin } = require("../utils/functions");
 const anti_spam = []
 
 module.exports = {
-    name: 'messageCreate',
+    name: 'messageCreataae',
     once: false,
 
     async execute(client, message) {

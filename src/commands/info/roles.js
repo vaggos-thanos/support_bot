@@ -1,24 +1,29 @@
 const { MessageEmbed } = require('discord.js');
+const { SlashCommandBuilder } = require('@discordjs/builders');
 
 module.exports = {
-    name: 'roles',
+	name: 'roles',
     category: 'info',
     runCommand: true,
     cooldown: 5, /* secoonds */
-    description: 'Show the roles of the server',
-
-    run: async (client, message, args) => {
-		//create a latence test command
+    description: 'List all the roles',
+ 
+	data: new SlashCommandBuilder()
+	.setName('roles')
+	.setDescription('Show the roles of the server'),
+	async execute (client, interaction) {
 		try {
+			await interaction.deferReply();
+
 			let roles = []
 			let counter = 0;
-			await message.guild.roles.fetch();
-			await message.guild.members.fetch();
+			await interaction.guild.roles.fetch();
+			await interaction.guild.members.fetch();
 
-			const roless = message.guild.roles.cache
+			const roless = interaction.guild.roles.cache
 			for ([id, role] of roless) {
 				counter++;
-				const members = message.guild.members.cache.filter(member => member.roles.cache.has(role.id));
+				const members = interaction.guild.members.cache.filter(member => member.roles.cache.has(role.id));
 				roles.push([`<@&${role.id}> ` + '`' + members.size + ' members' + '`' + `\n`]);
 			}
 
@@ -40,7 +45,9 @@ module.exports = {
 				roles.splice(0 , ii)
 			}
 
-			
+			let Embeds = [];
+			let while_state = true
+
 			for (let i = 0; i < runs; i++) {
 				const fieldCount = 1;
 				let fields = new Array(fieldCount);
@@ -50,7 +57,7 @@ module.exports = {
 				embed.setAuthor({name: client.user.username, iconURL: client.user.displayAvatarURL()});
 				embed.setColor('#fcba03')
 				embed.setTimestamp()
-				embed.setThumbnail(message.guild.iconURL())
+				embed.setThumbnail(interaction.guild.iconURL())
 
 				var iiii = 0;
 
@@ -65,12 +72,23 @@ module.exports = {
 						embed.addField(`⬇️ Roles:`, field);
 					}
 				}
+
 				await functions.sleep(1000);
-				message.channel.send({ embeds: [embed]});
+				Embeds.push(embed);
+
+				if(i == runs - 1) {
+					while_state = false
+				}
 			}
 
+			while(while_state) {
+				functions.sleep(100);
+			}
+
+			interaction.editReply({ embeds: Embeds });
+
 		} catch (error) {
-			functions.log(`Error in Command [roles] in ${message.guild.name}`, error)
+			functions.log(`Error in Command [roles] in ${interaction.guild.name}`, error)
 		}
 
 	},

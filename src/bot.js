@@ -25,5 +25,4 @@ const client = new Client({
     await CommandHandler(client);
 
     client.login(process.env.token);
-
 })();

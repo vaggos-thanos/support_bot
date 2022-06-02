@@ -6,21 +6,19 @@ module.exports = {
     runCommand: true,
     cooldown: 5, /* secoonds */
     description: 'Set the welcome role for the server',
+    data: new SlashCommandBuilder()
+        .setName('set_welcome_role')
+        .setDescription('Set the welcome role for the server')
+        .addRoleOption(option =>
+            option.setName('role')
+                .setDescription('The role to set as the welcome role')
+                .setRequired(true)
+        ),
+    async execute (client, interaction) {
 
-    run: async (client, message, args) => {
-        if(functions.isAdmin(message.member)) {
-            let role = message.mentions.roles.first();
-            if(role == undefined) {
-                message.reply("Please mention a role!").then(msg => {
-                    setTimeout(() => {
-                        msg.delete();
-                        message.delete();
-                    }, 5000);
-                });
-                return;
-            }
-
-            const guildConfig = await client.GuildConfigs.get(message.guild.id);
+        if(functions.isAdmin(interaction.member)) {
+            let role = interaction.options.getRole('role');
+            const guildConfig = await client.GuildConfigs.get(interaction.guild.id);
             if(role) {
                 functions.updateDB(
                     client, 
@@ -28,14 +26,13 @@ module.exports = {
                     'role_id', 
                     role.id, 
                     'GuildConfigs', 
-                    (message.guild.id, [message.guild.id, guildConfig[1], guildConfig[2], guildConfig[3], role.id, guildConfig[5], guildConfig[6]]),
+                    (interaction.guild.id, [interaction.guild.id, guildConfig[1], guildConfig[2], guildConfig[3], role.id, guildConfig[5], guildConfig[6]]),
                     'guild_id', 
-                    message.guild.id
+                    interaction.guild.id
                 );
-                message.reply("Welcome role set to " + role.name).then(msg => {
-                    setTimeout(() => {
-                        msg.delete();
-                        message.delete();
+                interaction.reply("Welcome role set to " + role.name).then(msg => {
+                    setTimeout(async () => {
+                        await interaction.deleteReply();
                     }, 5000);
                 });
             }

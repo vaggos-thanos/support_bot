@@ -6,45 +6,35 @@ module.exports = {
     runCommand: true,
     cooldown: 5, /* secoonds */
     description: 'Set the category for the support voice channels',
+    data: new SlashCommandBuilder()
+        .setName('support_category')
+        .setDescription('Set the category for the support voice channels')
+        .addChannelOption(option =>
+            option.setName('channel')
+                .setDescription('The channel to set as the support category')
+                .setRequired(true)
+        ),
+    async execute (client, interaction) {
+        if(functions.isAdmin(interaction.member)) {
+			await interaction.guild.members.fetch();
+			await interaction.guild.channels.fetch();
 
-    run: async (client, message, args) => {
-        if(functions.isAdmin(message.member)) {
-			await message.guild.members.fetch();
-			await message.guild.channels.fetch();
-
-            let channel = args[0]
-            let mention = message.mentions.channels.first();
-            let mention1 = message.mentions.roles.first();
-            let mention2 = message.mentions.users.first();
-            let userid = message.guild.members.cache.get(channel);
-            let isCategory = message.guild.channels.cache.get(channel);
-          
-            if(channel == undefined || mention != undefined || mention1 != undefined || mention2 != undefined || userid != undefined || isCategory == undefined || isCategory.type != 'GUILD_CATEGORY') {
-                message.reply("Please use an id for the category").then(msg => {
-                    setTimeout(() => {
-                        msg.delete();
-                        message.delete();
-                    }, 5000);
-                });
-                return;
-            }
-
-            const guildConfig = await client.GuildConfigs.get(message.guild.id);
+            let channel = interaction.options.getChannel('channel');
+            const guildConfig = await client.GuildConfigs.get(interaction.guild.id);
             if(channel != undefined) {
                 functions.updateDB(
                     client, 
                     'GuildConfig', 
                     'wfs_category_id', 
-                    channel, 
+                    channel.id, 
                     'GuildConfigs', 
-                    (message.guild.id, [message.guild.id, guildConfig[1], guildConfig[2], guildConfig[3], guildConfig[4], guildConfig[5], channel]), 
+                    (interaction.guild.id, [interaction.guild.id, guildConfig[1], guildConfig[2], guildConfig[3], guildConfig[4], guildConfig[5], channel.id]), 
                     'guild_id', 
-                    message.guild.id
+                    interaction.guild.id
                 );
-                message.reply("wfs category set to " + channel).then(msg => {
-                    setTimeout(() => {
-                        msg.delete();
-                        message.delete();
+                interaction.reply("wfs category set to " + channel).then(msg => {
+                    setTimeout(async () => {
+                        await interaction.deleteReply();
                     }, 5000);
                 });
             }

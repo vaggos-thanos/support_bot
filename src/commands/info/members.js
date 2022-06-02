@@ -1,28 +1,30 @@
 const { MessageEmbed } = require('discord.js');
+const { SlashCommandBuilder } = require('@discordjs/builders');
 
 module.exports = {
-    name: 'members',
+	name: 'members',
     category: 'info',
     runCommand: true,
     cooldown: 5, /* secoonds */
     description: 'Show the members of the server that has a specific role',
-
-    run: async (client, message, args) => {
-		//create a latence test command
+ 
+	data: new SlashCommandBuilder()
+	.setName('members')
+	.setDescription('Show the members of the server that has a specific role')
+	.addMentionableOption(option => 
+		option.setName('role')
+		.setDescription('The role to check')
+		.setRequired(true)
+	),
+	async execute (client, interaction) {
 		try {
-			let role = message.mentions.roles.first();
-			if(role == undefined) return message.reply("Please mention a role!").then(msg => {
-				setTimeout(() => {
-					msg.delete();
-					message.delete();
-				}, 5000);
-			});
+			await interaction.deferReply();
 
-			let memberss = []
+			const role = interaction.options.getMentionable('role')
+			await interaction.guild.members.fetch()
+			const members = interaction.guild.members.cache
+			const memberss = []
 			let counter = 0;
-			await message.guild.members.fetch();
-
-			const members = message.guild.members.cache
 			for ([id, member] of members) {
 				if(member.roles.cache.has(role.id)) {
 					counter++;
@@ -48,12 +50,14 @@ module.exports = {
 				new_members.push(db);
 				memberss.splice(0 , ii)
 			}
+			let Embeds = [];
+			let while_state = true
 
 			for (let i = 0; i < runs; i++) {
 				const fieldCount = 1;
 				let fields = new Array(fieldCount);
 				fields.fill('');
-	
+				
 				const embed = new MessageEmbed();
 				embed.setAuthor({name: client.user.username, iconURL: client.user.displayAvatarURL()});
 				embed.setColor('#fcba03')
@@ -70,14 +74,24 @@ module.exports = {
 						embed.addField(`⬇️ Members:`, field);
 					}
 				}
+
 				await functions.sleep(1000);
-	
-				message.channel.send({ embeds: [embed]});
+				Embeds.push(embed);
+
+				if(i == runs - 1) {
+					while_state = false
+				}
 			}
 
-		} catch (error) {
-			functions.log(`Error in Command [Members] in ${message.guild.name}`, error)
-		}
+			while(while_state) {
+				functions.sleep(100);
+			}
 
-	},
-};
+			interaction.editReply({ embeds: Embeds });
+
+		} catch (error) {
+			console.error(error);
+			functions.log(`Error in Command [Members] in ${interaction.guild.name}`, error)
+		}
+	}
+}
