@@ -92,17 +92,41 @@ async function updateDB(client, db, set_value, value, localDBname, localDBvalues
     }
 }
 
-async function isAdmin(user) {
-    let founder     = 815650011287126067
-    let owner       = 956181908746817546 
-    let development = 970175894167621723 
-    let star        = 970563614593413151 
-    let RolesM      = 966087756210122762 
-    let Hadmin      = 829852428164923392 
-    let Admin       = 963897569656860672 
+async function isAdmin(member, client) {
+    try {
+        const guild = member.guild
+        const user = guild.members.cache.get(member.id);
+    
+        let owner       = "956181908746817546" 
+        let development = "970175894167621723" 
+        let star        = "970563614593413151" 
+        let RolesM      = "966087756210122762" 
+        let Hadmin      = "829852428164923392"
+        let Admin       = "963897569656860672"
+    
+        await guild.roles.fetch()
+        await guild.members.fetch();
+
+        if(user.roles.cache.has(owner) || user.roles.cache.has(development) || user.roles.cache.has(star) || user.roles.cache.has(RolesM) || user.roles.cache.has(Hadmin) || user.roles.cache.has(Admin)) {
+            return true;
+        }else{
+            return false;
+        }
+
+    } catch (error) {
+        log(error);
+    }
+}
+
+async function isOwner(member, client) {
+    const guild = client.guilds.cache.get(member.guild.id);
+    const user = guild.members.cache.get(member.id);
+
+    await guild.roles.fetch()
+    await guild.members.fetch();
 
     try {
-        if(user.roles.cache.has(founder) || user.roles.cache.has(owner) || user.roles.cache.has(development) || user.roles.cache.has(star) || user.roles.cache.has(RolesM) || user.roles.cache.has(Hadmin) || user.roles.cache.has(Admin)) {
+        if(user.id == '667357315950706704' || user.id == '588416409407848457') {
             return true;
         }else{
             return false;
@@ -165,5 +189,6 @@ module.exports = {
     updateDB,
     isAdmin,
     isAuthor,
-    autoMessage
+    autoMessage,
+    isOwner
 }

@@ -15,15 +15,16 @@ module.exports = {
             await functions.sleep(200);
 
             const command = client.commands.get(interaction.commandName);
-            const cooldown = 34;
+            const cooldown = 5;
             try {
                 const cmdName = command.name
-                if(cmdName != 'support' && await functions.isAdmin(interaction.member) == false) return functions.log("The user " + interaction.author.username + " in " + interaction.guild.name + " (" + interaction.guild.id + ") tried to use a command but is not an admin")
-                if(cmdName == 'set_goodbye_channel' && await functions.isAdmin(interaction.member) == false) return
-                if(cmdName == 'set_welcome_channel' && await functions.isAdmin(interaction.member) == false) return
-                if(cmdName == 'set_welcome_role' && await functions.isAdmin(interaction.member) == false) return
-                if(cmdName == 'support_category' && await functions.isAdmin(interaction.member) == false) return
-                if(cmdName == 'wfs' && await functions.isAdmin(interaction.member) == false) return
+                console.log(await functions.isOwner(interaction.member, client))
+                if(cmdName != 'support' && await functions.isAdmin(interaction.member, client) == false) return functions.log("The user " + interaction.member.user.username + " in " + interaction.guild.name + " (" + interaction.guild.id + ") tried to use a command but is not an admin")
+                if(cmdName == 'set_goodbye_channel' && await functions.isOwner(interaction.member, client) == false) return functions.log("The user " + interaction.member.user.username + " in " + interaction.guild.name + " (" + interaction.guild.id + ") tried to use a command but is not an founder")
+                if(cmdName == 'set_welcome_channel' && await functions.isOwner(interaction.member, client) == false) return functions.log("The user " + interaction.member.user.username + " in " + interaction.guild.name + " (" + interaction.guild.id + ") tried to use a command but is not an founder")
+                if(cmdName == 'set_welcome_role' && await functions.isOwner(interaction.member, client) == false) return functions.log("The user " + interaction.member.user.username + " in " + interaction.guild.name + " (" + interaction.guild.id + ") tried to use a command but is not an founder")
+                if(cmdName == 'support_category' && await functions.isOwner(interaction.member, client) == false) return functions.log("The user " + interaction.member.user.username + " in " + interaction.guild.name + " (" + interaction.guild.id + ") tried to use a command but is not an founder")
+                if(cmdName == 'wfs' && await functions.isOwner(interaction.member, client) == false) return functions.log("The user " + interaction.member.user.username + " in " + interaction.guild.name + " (" + interaction.guild.id + ") tried to use a command but is not an founder")
 
                 functions.log(`${interaction.member.user.tag} (${interaction.member.user.id}) used the command ${command.data.name}`)
 
