@@ -19,6 +19,11 @@ module.exports = {
             try {
                 const cmdName = command.name
                 if(cmdName != 'support' && await functions.isAdmin(interaction.member) == false) return functions.log("The user " + interaction.author.username + " in " + interaction.guild.name + " (" + interaction.guild.id + ") tried to use a command but is not an admin")
+                if(cmdName == 'set_goodbye_channel' && await functions.isAdmin(interaction.member) == false) return
+                if(cmdName == 'set_welcome_channel' && await functions.isAdmin(interaction.member) == false) return
+                if(cmdName == 'set_welcome_role' && await functions.isAdmin(interaction.member) == false) return
+                if(cmdName == 'support_category' && await functions.isAdmin(interaction.member) == false) return
+                if(cmdName == 'wfs' && await functions.isAdmin(interaction.member) == false) return
 
                 functions.log(`${interaction.member.user.tag} (${interaction.member.user.id}) used the command ${command.data.name}`)
 

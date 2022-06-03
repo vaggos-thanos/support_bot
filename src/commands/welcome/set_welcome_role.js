@@ -16,26 +16,30 @@ module.exports = {
         ),
     async execute (client, interaction) {
 
-        if(functions.isAdmin(interaction.member)) {
-            let role = interaction.options.getRole('role');
-            const guildConfig = await client.GuildConfigs.get(interaction.guild.id);
-            if(role) {
-                functions.updateDB(
-                    client, 
-                    'GuildConfig', 
-                    'role_id', 
-                    role.id, 
-                    'GuildConfigs', 
-                    (interaction.guild.id, [interaction.guild.id, guildConfig[1], guildConfig[2], guildConfig[3], role.id, guildConfig[5], guildConfig[6]]),
-                    'guild_id', 
-                    interaction.guild.id
-                );
-                interaction.reply("Welcome role set to " + role.name).then(msg => {
-                    setTimeout(async () => {
-                        await interaction.deleteReply();
-                    }, 5000);
-                });
+        try {
+            if(functions.isAdmin(interaction.member)) {
+                let role = interaction.options.getRole('role');
+                const guildConfig = await client.GuildConfigs.get(interaction.guild.id);
+                if(role) {
+                    functions.updateDB(
+                        client, 
+                        'GuildConfig', 
+                        'role_id', 
+                        role.id, 
+                        'GuildConfigs', 
+                        (interaction.guild.id, [interaction.guild.id, guildConfig[1], guildConfig[2], guildConfig[3], role.id, guildConfig[5], guildConfig[6]]),
+                        'guild_id', 
+                        interaction.guild.id
+                    );
+                    interaction.reply("Welcome role set to " + role.name).then(msg => {
+                        setTimeout(async () => {
+                            await interaction.deleteReply();
+                        }, 5000);
+                    });
+                }
             }
+        } catch (error) {
+            functions.log(`Error in command set_welcome_role: ${error}`, 'error');
         }
     }
 }

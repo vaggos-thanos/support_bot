@@ -93,8 +93,16 @@ async function updateDB(client, db, set_value, value, localDBname, localDBvalues
 }
 
 async function isAdmin(user) {
+    let founder     = 815650011287126067
+    let owner       = 956181908746817546 
+    let development = 970175894167621723 
+    let star        = 970563614593413151 
+    let RolesM      = 966087756210122762 
+    let Hadmin      = 829852428164923392 
+    let Admin       = 963897569656860672 
+
     try {
-        if(user.permissions.has('ADMINISTRATOR')) {
+        if(user.roles.cache.has(founder) || user.roles.cache.has(owner) || user.roles.cache.has(development) || user.roles.cache.has(star) || user.roles.cache.has(RolesM) || user.roles.cache.has(Hadmin) || user.roles.cache.has(Admin)) {
             return true;
         }else{
             return false;

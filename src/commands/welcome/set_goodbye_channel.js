@@ -15,26 +15,30 @@ module.exports = {
                 .setRequired(true)
         ),
     async execute (client, interaction) {
-        if(functions.isAdmin(interaction.member)) {
-            let channel = interaction.options.getChannel('channel');
-            const guildConfig = await client.GuildConfigs.get(interaction.guild.id);
-            if(channel) {
-                functions.updateDB(
-                    client, 
-                    'GuildConfig', 
-                    'goodbye_channel_id', 
-                    channel.id, 
-                    'GuildConfigs', 
-                    (interaction.guild.id, [interaction.guild.id, guildConfig[1], guildConfig[2], guildConfig[3], guildConfig[4], channel.id, guildConfig[6]]),
-                    'guild_id', 
-                    interaction.guild.id
-                );
-                interaction.reply("Goodbye channel set to " + channel.name).then(msg => {
-                    setTimeout(async () => {
-                        await interaction.deleteReply();
-                    }, 5000);
-                });
+        try {
+            if(functions.isAdmin(interaction.member)) {
+                let channel = interaction.options.getChannel('channel');
+                const guildConfig = await client.GuildConfigs.get(interaction.guild.id);
+                if(channel) {
+                    functions.updateDB(
+                        client, 
+                        'GuildConfig', 
+                        'goodbye_channel_id', 
+                        channel.id, 
+                        'GuildConfigs', 
+                        (interaction.guild.id, [interaction.guild.id, guildConfig[1], guildConfig[2], guildConfig[3], guildConfig[4], channel.id, guildConfig[6]]),
+                        'guild_id', 
+                        interaction.guild.id
+                    );
+                    interaction.reply("Goodbye channel set to " + channel.name).then(msg => {
+                        setTimeout(async () => {
+                            await interaction.deleteReply();
+                        }, 5000);
+                    });
+                }
             }
+        } catch (error) {
+            functions.log(`Error in command set_goodbye_channel: ${error}`, 'error');
         }
     }
 }
