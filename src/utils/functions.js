@@ -96,7 +96,9 @@ async function isAdmin(member, client) {
     try {
         const guild = member.guild
         const user = guild.members.cache.get(member.id);
-    
+        
+        let founder     = "815650011287126067"
+        let coFounder   = "536185317170872340"
         let owner       = "956181908746817546" 
         let development = "970175894167621723" 
         let star        = "970563614593413151" 
@@ -107,7 +109,7 @@ async function isAdmin(member, client) {
         await guild.roles.fetch()
         await guild.members.fetch();
 
-        if(user.roles.cache.has(owner) || user.roles.cache.has(development) || user.roles.cache.has(star) || user.roles.cache.has(RolesM) || user.roles.cache.has(Hadmin) || user.roles.cache.has(Admin)) {
+        if(user.roles.cache.has(founder) || user.roles.cache.has(coFounder) ||user.roles.cache.has(owner) || user.roles.cache.has(development) || user.roles.cache.has(star) || user.roles.cache.has(RolesM) || user.roles.cache.has(Hadmin) || user.roles.cache.has(Admin)) {
             return true;
         }else{
             return false;
