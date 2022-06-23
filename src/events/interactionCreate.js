@@ -59,19 +59,21 @@ module.exports = {
                 await interaction.guild.roles.fetch();
                 const memberRole = interaction.guild.roles.cache.get('815650409833299978')
                 const user = button.member
-                const msg = `**Έγινες με επιτυχία verify! Διάβασε τα <@#815655146058940447> του server.**`
+                const msg = `**Έγινες με επιτυχία verify! Διάβασε τα <#815655146058940447> του server.**`
 
                 const row = new MessageActionRow()
                     .addComponents(
                         new MessageButton()
                         .setLabel('YouTube')
                         .setStyle('LINK')
-                        .setURL('https://www.youtube.com/channel/UCYxF6-G6lCqTwRc0d14RHIg'),
+                        .setURL('https://www.youtube.com/channel/UCYxF6-G6lCqTwRc0d14RHIg')
+                        .setEmoji('986425030164512808'),
                         
                         new MessageButton()
                         .setLabel('Steam')
                         .setStyle('LINK')
-                        .setURL('https://steamcommunity.com/id/golld3n/'),
+                        .setURL('https://steamcommunity.com/id/golld3n/')
+                        .setEmoji('986425215762440232'),
                     )
                 await user.roles.add(memberRole)
                 button.reply({content: msg, components: [row], ephemeral: true})
