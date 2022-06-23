@@ -59,7 +59,7 @@ module.exports = {
                 await interaction.guild.roles.fetch();
                 const memberRole = interaction.guild.roles.cache.get('815650409833299978')
                 const user = button.member
-                const msg = `Έγινες με επιτυχία verify! Διάβασε τα <@&815655146058940447> του server. Μπορεί να υπάρχει καθυστέρηση μέχρι και 1 λεπτό για να πάρεις το member role!`
+                const msg = `**Έγινες με επιτυχία verify! Διάβασε τα <@#815655146058940447> του server.**`
 
                 const row = new MessageActionRow()
                     .addComponents(
@@ -71,7 +71,7 @@ module.exports = {
                         new MessageButton()
                         .setLabel('Steam')
                         .setStyle('LINK')
-                        .setURL('https://steamcommunity.com'),
+                        .setURL('https://steamcommunity.com/id/golld3n/'),
                     )
                 await user.roles.add(memberRole)
                 button.reply({content: msg, components: [row], ephemeral: true})
