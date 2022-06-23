@@ -1,3 +1,5 @@
+const { MessageActionRow, MessageButton } = require("discord.js");
+
 const anti_spam = []
 module.exports = {
     name: 'interactionCreate',
@@ -43,7 +45,7 @@ module.exports = {
                     await command.execute(client, interaction);
 
                 }else{
-                    interaction.reply(`**__You have to wait ${cooldown} seconds to do this action!__**`)
+                    interaction.reply({content: `**__Πρέπει να περιμένεις ${cooldown} δευτερόλεπτα για να κάνετε αυτήν την ενέργεια!__**`, ephemeral: true})
                 }
                 
             } catch (error) {
@@ -51,6 +53,29 @@ module.exports = {
                 await interaction.reply({ content: 'There was an error while executing this command!', ephemeral: true });
             }
 
+        } else if (interaction.isButton()) {
+            const button = interaction
+            if(button.customId == 'verify') {
+                await interaction.guild.roles.fetch();
+                const memberRole = interaction.guild.roles.cache.get('815650409833299978')
+                const user = button.member
+                const msg = `Έγινες με επιτυχία verify! Διάβασε τα <@&815655146058940447> του server. Μπορεί να υπάρχει καθυστέρηση μέχρι και 1 λεπτό για να πάρεις το member role!`
+
+                const row = new MessageActionRow()
+                    .addComponents(
+                        new MessageButton()
+                        .setLabel('YouTube')
+                        .setStyle('LINK')
+                        .setURL('https://www.youtube.com/channel/UCYxF6-G6lCqTwRc0d14RHIg'),
+                        
+                        new MessageButton()
+                        .setLabel('Steam')
+                        .setStyle('LINK')
+                        .setURL('https://steamcommunity.com'),
+                    )
+                await user.roles.add(memberRole)
+                button.reply({content: msg, components: [row], ephemeral: true})
+            }
         }
     }
 }

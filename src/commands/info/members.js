@@ -18,7 +18,7 @@ module.exports = {
 	),
 	async execute (client, interaction) {
 		try {
-			await interaction.deferReply();
+			await interaction.deferReply({ephemeral: true});
 
 			const role = interaction.options.getMentionable('role')
 			await interaction.guild.members.fetch()
@@ -37,6 +37,11 @@ module.exports = {
 			let i = 0;
 			let new_members = [];
 			let players_max = 10;
+
+			if(runs == 0 ) {
+				await interaction.editReply({ content: '**Ο ρόλος δεν έχει μέλη!**' });
+				return;
+			}
 
 			while (i < runs) {
 				i++
@@ -60,6 +65,8 @@ module.exports = {
 				
 				const embed = new MessageEmbed();
 				embed.setAuthor({name: client.user.username, iconURL: client.user.displayAvatarURL()});
+				embed.setThumbnail(client.user.displayAvatarURL())
+				embed.setDescription(`${role}`)
 				embed.setColor('#fcba03')
 				var iiii = 0;
 
@@ -71,7 +78,7 @@ module.exports = {
 				for (var iiiiiii = 0; iiiiiii < fields.length; iiiiiii++) {
 					let field = fields[iiiiiii];
 					if (fields.length > 0) {
-						embed.addField(`⬇️ Members:`, field);
+						embed.addField(`\n⬇️ Members:`, field);
 					}
 				}
 
