@@ -49,18 +49,18 @@ module.exports = {
         embed.setAuthor({name: client.user.tag, iconURL: client.user.displayAvatarURL()})
         embed.setTitle(`${username}'s stats`)
         embed.addFields(
-            {name: "**User's Personal Info**", value: "\\➖\\➖\\➖\\➖\\➖\\➖\\➖\\➖\\➖\\➖\\➖\\➖\\➖\\➖\\➖\\➖\\➖\\➖\\➖", inline: false},
+            {name: "**User's Personal Info**", value: "⬇️", inline: false},
             {name: "**Username**", value: '```' + `${username}` + '```', inline: true},
             {name: "**ID**", value: '```' + `${id}` + '```', inline: true},
-            {name: "**Has Nitro**", value: '```' + `${has_nitro}` + '```', inline: true},
-            {name: "**User's Time Logs**", value: "\\➖\\➖\\➖\\➖\\➖\\➖\\➖\\➖\\➖\\➖\\➖\\➖\\➖\\➖\\➖\\➖\\➖\\➖\\➖", inline: false},
-            {name: "**Joined Server**", value: '```' + `${joined_server}` + '```', inline: true},
-            {name: "**Joined Discord**", value: '```' + `${joined_discord}` + '```', inline: true},
-            {name: "**Server Booster**", value: '```' + `${server_booster}` + '```', inline: true},
-            {name: "**Security Check**", value: "\\➖\\➖\\➖\\➖\\➖\\➖\\➖\\➖\\➖\\➖\\➖\\➖\\➖\\➖\\➖\\➖\\➖\\➖\\➖", inline: false},
-            {name: "**Is Bot**", value: '```' + `${isBot}` + '```', inline: true},
-            {name: "**Is System Bot**", value: '```' + `${isSystem}` + '```', inline: true},
-            {name: "**Role Count**", value: '```' + `${user_rolesC}` + '```', inline: true},
+            {name: "**Has Nitro 🔮**", value: '```' + `${has_nitro}` + '```', inline: true},
+            {name: "**User's Time Logs**", value: "⬇️", inline: false},
+            {name: "**Joined Server 👑**", value: '```' + `${joined_server}` + '```', inline: true},
+            {name: "**Joined Discord ⏱️**", value: '```' + `${joined_discord}` + '```', inline: true},
+            {name: "**Server Booster 🔮**", value: '```' + `${server_booster}` + '```', inline: true},
+            {name: "**Security Check**", value: "⬇️", inline: false},
+            {name: "**Is Bot 🤖**", value: '```' + `${isBot}` + '```', inline: true},
+            {name: "**Is System Bot 🤖**", value: '```' + `${isSystem}` + '```', inline: true},
+            {name: "**Role Count 📚**", value: '```' + `${user_rolesC}` + '```', inline: true},
             
         )
         embed.setColor('#fcba03')
