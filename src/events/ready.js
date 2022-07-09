@@ -4,7 +4,7 @@ module.exports = {
     async execute(client) {
         console.log(`Logged in as ${client.user.tag}!`);
         setInterval(() => {
-            client.user.setActivity(`!help | ${client.guilds.cache.size} servers`, { type: 'WATCHING' });
+            client.user.setActivity(`/help | ${client.guilds.cache.size} servers`, { type: 'WATCHING' });
         }, 10000);
 
         //autoMessage

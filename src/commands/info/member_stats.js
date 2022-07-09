@@ -20,20 +20,13 @@ module.exports = {
         const member = interaction.options.getMentionable('member');
 
         const joined_server = member.joinedAt
-        const joined_discord = new Date(member.joinedTimestamp)
-        let   has_nitro = member.premiumSinceTimestamp
+        const joined_discord = new Date(member.user.createdAt)
         let   server_booster = member.premiumSinceTimestamp
         const user_roles = member.roles.cache
         const id = member.user.id
         const isBot = member.user.bot ? "Yeap 🤖" : "Nope 👀"
         const isSystem = member.user.system ? "Yeap 🤖" : "Nope 👀"
         const username = `${member.user.username}#${member.user.discriminator}`
-
-        if (has_nitro != null) {
-            has_nitro = new Date(has_nitro)
-        } else {
-            has_nitro = "Nope :("
-        }
 
         if (server_booster != null) {
             server_booster = new Date(server_booster)
@@ -52,7 +45,6 @@ module.exports = {
             {name: "**User's Personal Info**", value: "⬇️", inline: false},
             {name: "**Username**", value: '```' + `${username}` + '```', inline: true},
             {name: "**ID**", value: '```' + `${id}` + '```', inline: true},
-            {name: "**Has Nitro 🔮**", value: '```' + `${has_nitro}` + '```', inline: true},
             {name: "**User's Time Logs**", value: "⬇️", inline: false},
             {name: "**Joined Server 👑**", value: '```' + `${joined_server}` + '```', inline: true},
             {name: "**Joined Discord ⏱️**", value: '```' + `${joined_discord}` + '```', inline: true},

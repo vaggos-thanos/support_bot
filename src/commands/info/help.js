@@ -14,11 +14,10 @@ module.exports = {
     async execute (client, interaction) {
         try {
             const embed = new MessageEmbed();
-            const guildConfig = await client.GuildConfigs.get(interaction.guild.id);
             embed.setAuthor({name: client.user.username, iconURL: client.user.displayAvatarURL()});
             for (let i=0; i < cmds.length; i++){
                 if (cmds[i].name !== undefined && cmds[i].description !== undefined ) {
-                    embed.addField(`➡️ Command: ${guildConfig[1]}${cmds[i].name}`, '`' + `-> ${cmds[i].description}` + '`')  
+                    embed.addField(`➡️ Command: /${cmds[i].name}`, '`' + `-> ${cmds[i].description}` + '`')  
                 }
             }
             embed.setColor('#fcba03')
