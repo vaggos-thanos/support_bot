@@ -18,7 +18,7 @@ module.exports = {
 	),
 	async execute (client, interaction) {
 		try {
-			await interaction.reply({content: 'Here is the list of members with the role **' + interaction.options.getMentionable('role').name + '**', ephemeral: true});
+			await interaction.reply({content: 'Εδώ είναι η λίστα των μελών με τον ρόλο **' + interaction.options.getMentionable('role').name + '**', ephemeral: true});
 
 			const role = interaction.options.getMentionable('role')
 			await interaction.guild.members.fetch()

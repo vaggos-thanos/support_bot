@@ -13,7 +13,7 @@ module.exports = {
 	.setDescription('Show the roles of the server'),
 	async execute (client, interaction) {
 		try {
-			await interaction.reply({content: 'Here is the list of all roles', ephemeral: true});
+			await interaction.reply({content: 'Εδώ είναι η λίστα με όλους τους ρόλους', ephemeral: true});
 
 			let roles = []
 			let counter = 0;

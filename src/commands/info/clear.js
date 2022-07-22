@@ -23,9 +23,9 @@ module.exports = {
         console.log(interaction.channel.messages.size)
         await interaction.channel.bulkDelete(parseInt(count), true).then(async (msg) => {
             interaction.reply(`Bot cleared \`${msg.size}\` messages :broom:`)
-            setTimeout(async () => {
-                await interaction.deleteReply();
-            }, 5000);
+            // setTimeout(async () => {
+            //     await interaction.deleteReply();
+            // }, 5000);
         })
     }
 }
