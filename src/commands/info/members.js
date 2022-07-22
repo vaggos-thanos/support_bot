@@ -18,7 +18,7 @@ module.exports = {
 	),
 	async execute (client, interaction) {
 		try {
-			await interaction.deferReply({ephemeral: true});
+			await interaction.reply({content: 'Here is the list of members with the role **' + interaction.options.getMentionable('role').name + '**', ephemeral: true});
 
 			const role = interaction.options.getMentionable('role')
 			await interaction.guild.members.fetch()
@@ -94,7 +94,7 @@ module.exports = {
 				functions.sleep(100);
 			}
 
-			interaction.editReply({ embeds: Embeds });
+			interaction.channel.send({ embeds: Embeds });
 
 		} catch (error) {
 			console.error(error);

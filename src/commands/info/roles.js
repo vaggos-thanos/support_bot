@@ -13,7 +13,7 @@ module.exports = {
 	.setDescription('Show the roles of the server'),
 	async execute (client, interaction) {
 		try {
-			await interaction.deferReply();
+			await interaction.reply({content: 'Here is the list of all roles', ephemeral: true});
 
 			let roles = []
 			let counter = 0;
@@ -85,7 +85,7 @@ module.exports = {
 				functions.sleep(100);
 			}
 
-			interaction.editReply({ embeds: Embeds });
+			interaction.channel.send({ embeds: Embeds });
 
 		} catch (error) {
 			functions.log(`Error in Command [roles] in ${interaction.guild.name}`, error)
