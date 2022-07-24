@@ -25,5 +25,6 @@ const client = new Client({
     await system.Commands('../commands');
     await system.Events('../events');
 
-    client.login(process.env.token);
+    await client.login(process.env.token);
+    await system.SlashBuild('746856547086499893', 'local')
 })();

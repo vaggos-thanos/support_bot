@@ -6,8 +6,7 @@ const { Collection } = require('discord.js');
 class SYSManager {
     constructor(client, dbManager) {
         this.client = client,
-        this.dbManager = dbManager,
-        this.clientId = client.id
+        this.dbManager = dbManager
     }
 
     async Commands(dir, repeted) {
@@ -73,64 +72,24 @@ class SYSManager {
         }
     }
 
-    async SlashBuild(guild_id, dir, scope) {
-        console.log(this.client.user)
-        const clientId = this.client.user ? this.client.user.id : this.clientId;
-
+    async SlashBuild(guild_id, scope) {
         const commands = [];
-        const tempCommands = new Collection();
         const token = process.env.token;
         const { REST } = require('@discordjs/rest');
         const { Routes } = require('discord-api-types/v9');
-        await findCommands(dir, false);
 
-
-        async function findCommands(dir, repeted) {
-            if(repeted){
-                dir = dir
-            } else {
-                dir = path.join(__dirname, dir)
-            }
-            
-            let files = await fs.readdirSync(dir);
-
-            for(const file of files) {
-                const stat = await fs.lstatSync(path.join(dir, file));
-                if (stat.isDirectory()) {
-                    findCommands(path.join(dir, file), true)
-                } else {
-                    if(file.endsWith(".js")) {
-                        const cmdName = file.substring(0, file.indexOf(".js"));
-                        try {
-                            const cmdModule = require(path.join(dir, file));
-                            if(checkCommandModule(cmdName, cmdModule)) {
-                                await tempCommands.set(cmdName, cmdModule);   
-                                console.log(tempCommands)                         
-                                console.log(color.yellow('[SYSManager Slash Build Command]') + ' Loaded command ' + cmdName);
-                            }
-                        }
-                        catch(err) {
-                            console.log(color.yellow('[SYSManager Slash Build Command]') + ' Error while loading command ' + cmdName);
-                            console.log(err);
-                        }
-                    }
-                }
-            }
-        }
-
-        for (const file of tempCommands) {
-            console.log(file)
+        for (const file of this.client.commands) {
             console.log(color.yellow('[SYSManager Slash]') + ` ${file[0]} loaded`);
             commands.push(file[1].data.toJSON());
         }
-        
+
         const rest = new REST({ version: '9' }).setToken(token);
         console.log(`Registering slash commands for ${guild_id}`);
-        console.log(`Client ID: ${clientId}`);
+        console.log(`Client ID: ${this.client.user.id}`);
         console.log(`Scope: ${scope}`);
         
         if(scope == 'local') {
-            rest.put(Routes.applicationGuildCommands(clientId, guild_id), { body: commands })
+            rest.put(Routes.applicationGuildCommands(this.client.user.id, guild_id), { body: commands })
             .then(() => console.log('Successfully registered application commands [LOCAL].'))
             .catch(error => {
                 console.log(`Error registering application commands: ${error}`)
