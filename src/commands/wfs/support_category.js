@@ -14,25 +14,14 @@ module.exports = {
                 .setDescription('The channel to set as the support category')
                 .setRequired(true)
         ),
-    async execute (client, interaction) {
+    async execute (client, db_handler, interaction) {
         try {
-            if(functions.isAdmin(interaction.member)) {
-                await interaction.guild.members.fetch();
-                await interaction.guild.channels.fetch();
-    
+            if(functions.isAdmin(interaction.member)) {    
                 let channel = interaction.options.getChannel('channel');
-                const guildConfig = await client.GuildConfigs.get(interaction.guild.id);
                 if(channel != undefined) {
-                    functions.updateDB(
-                        client, 
-                        'GuildConfig', 
-                        'wfs_category_id', 
-                        channel.id, 
-                        'GuildConfigs', 
-                        (interaction.guild.id, [interaction.guild.id, guildConfig[1], guildConfig[2], guildConfig[3], guildConfig[4], guildConfig[5], channel.id]), 
-                        'guild_id', 
-                        interaction.guild.id
-                    );
+                    const update = await db_handler.update_row('GuildConfig', 'wfs_category_id', channel.id, 'guild_id', interaction.guild.id)
+                    await client.GuildConfigs.set(interaction.guild.id, update.data)
+
                     interaction.reply("wfs category set to " + channel).then(msg => {
                         setTimeout(async () => {
                             await interaction.deleteReply();

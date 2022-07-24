@@ -16,7 +16,7 @@ module.exports = {
         .setDescription('The member you want to see the stats')
         .setRequired(true)
     ),
-    async execute (client, interaction) {
+    async execute (client, db_handler, interaction) {
         const member = interaction.options.getMentionable('member');
 
         const joined_server = member.joinedAt

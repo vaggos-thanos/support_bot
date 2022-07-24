@@ -1,12 +1,13 @@
 {
   "name": "support_bot",
-  "version": "1.0.0",
+  "version": "2.0.0",
   "description": "A simple support bot for discord servers",
   "main": "./src/bot.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
     "dev": "nodemon ./src/bot.js",
-    "start": "node ./src/bot.js"
+    "start": "node ./src/bot.js",
+    "build": "node ./buildCommands"
   },
   "repository": {
     "type": "git",

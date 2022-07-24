@@ -1,14 +1,11 @@
-const { MessageEmbed } = require('discord.js');
+const { MessageEmbed } = require("discord.js");
+
 module.exports = {
-    name: 'guildMemberAdd',
+    name: 'guidMemberAdd',
     once: false,
-    async execute(client, member) {
-        //f(member.user.bot) return;
-
+    async execute(client, db_handler, member) {
         const guildConfig = await client.GuildConfigs.get(member.guild.id);
-
-        let myGuild = member.guild
-        let channel = myGuild.channels.cache.get(guildConfig[3]);
+        const channel = member.guild.channels.cache.get(guildConfig.welcome_channel_id);
         
        const embed = new MessageEmbed()
         .setColor('#fcba03')
@@ -19,9 +16,7 @@ module.exports = {
 
         channel.send({embeds: [embed] });
 
-        let welcomeRole = guildConfig[4];
-
-        if(welcomeRole == undefined) return;
-        member.roles.add(welcomeRole);
+        if(guildConfig.role_id == undefined) return;
+        member.roles.add(guildConfig.role_id);
     }
-};
+}

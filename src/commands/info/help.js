@@ -1,4 +1,4 @@
-const {MessageEmbed} = require('discord.js');
+const { MessageEmbed } = require('discord.js');
 const { SlashCommandBuilder } = require('@discordjs/builders');
 
 module.exports = {
@@ -11,13 +11,13 @@ module.exports = {
     data: new SlashCommandBuilder()
     .setName('help')
     .setDescription('Returns the commands list'),
-    async execute (client, interaction) {
+    async execute (client, db_handler, interaction) {
         try {
             const embed = new MessageEmbed();
             embed.setAuthor({name: client.user.username, iconURL: client.user.displayAvatarURL()});
-            for (let i=0; i < cmds.length; i++){
-                if (cmds[i].name !== undefined && cmds[i].description !== undefined ) {
-                    embed.addField(`➡️ Command: /${cmds[i].name}`, '`' + `-> ${cmds[i].description}` + '`')  
+            for ([id, data] of client.commands) {
+                if (id !== undefined && data.description !== undefined ) {
+                    embed.addField(`➡️ Command: /${id}`, '`' + `-> ${data.description}` + '`')  
                 }
             }
             embed.setColor('#fcba03')
@@ -26,7 +26,8 @@ module.exports = {
 
             interaction.reply({ embeds: [embed]})
         } catch (error) {
-            functions.log(`Error in Command [Commands] in ${interaction.guild.name}`, error)
+            console.log(error)
+            functions.log(`Error in Command [Commands] in ${interaction.guild.name}`)
         }
     }
 }

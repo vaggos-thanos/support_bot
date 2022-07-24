@@ -15,7 +15,7 @@ module.exports = {
                 .setDescription('The Channel to send the verify message')
                 .setRequired(true)
         ),
-    async execute (client, interaction) {
+    async execute (client, db_handler, interaction) {
         try {
             if(functions.isAdmin(interaction.member)) {
                 await interaction.deferReply({ephemeral: true})

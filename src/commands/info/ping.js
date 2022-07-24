@@ -11,7 +11,7 @@ module.exports = {
 	data: new SlashCommandBuilder()
 	.setName('ping')
 	.setDescription('Ping the bot'),
-	async execute (client, interaction) {
+	async execute (client, db_handler, interaction) {
 		try {
 			const embed = new MessageEmbed();
 			embed.setAuthor({name: client.user.username, iconURL: client.user.displayAvatarURL()});

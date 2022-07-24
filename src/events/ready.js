@@ -1,42 +1,32 @@
 module.exports = {
     name: 'ready',
-    once: true,
-    async execute(client) {
-        console.log(`Logged in as ${client.user.tag}!`);
-        setInterval(() => {
-            client.user.setActivity(`/help | ${client.guilds.cache.size} servers`, { type: 'WATCHING' });
+    once: false,
+    async execute(client, db_handler) {
+        functions.log('Logged in as ' + client.user.tag);
+
+        // set the bot's presence
+        setInterval(async () => {
+            const guilds = client.guilds.cache
+            const usersCount = await guilds.reduce(async (total, guild) => {
+                return await total + guild.memberCount;
+            }, 0)
+            
+            const botUsers = await guilds.reduce(async (total, guild) => {
+                await guild.members.fetch();
+                const bots = await guild.members.cache.filter(member => member.user.bot).size;
+                if(await total == 0) return bots;
+                
+                return await total + bots;
+            }, 0)
+
+            client.user.setActivity(`${client.guilds.cache.size} servers | ${usersCount - botUsers} users`, { type: 'WATCHING' });
         }, 10000);
 
-        //autoMessage
+        // initialize the local database
 
-        await functions.autoMessage(client, '746856547086499893')
-
-        database.query('SELECT * FROM GuildConfig', (err, result) => {
-            if (err) {
-                console.log(err);
-            }else{
-                if (result) {
-                    for (let i = 0; i < result.length; i++) {
-                        client.GuildConfigs.set(result[i].guild_id, [result[i].guild_id, result[i].prefix, result[i].wfs_channel_id, result[i].welcome_channel_id, result[i].role_id, result[i].goodbye_channel_id, result[i].wfs_category_id]);  
-                    } 
-
-                    const Guilds = client.guilds.cache.map(guild => guild.id);
-                    for (let i = 0; i < Guilds.length; i++){
-                        if (client.GuildConfigs.get(Guilds[i]) === undefined){
-                            database.query(`INSERT IGNORE INTO GuildConfig (guild_id) VALUES (${Guilds[i]})`, (err, result) => {
-                                if (err) {
-                                    console.log(err);
-                                }else{
-                                    client.GuildConfigs.set(Guilds[i], [Guilds[i], '!', null, null, null, null, null]);
-                                }
-                            });
-                        }
-                    }
-                }
-            }
-        });
-
-        const { register } = require('../utils/slash_commands_builder')
-        //register(client.user.id, '746856547086499893', 'local')
+        const allGuilds = await db_handler.get_all_rows('GuildConfig')
+        for(guild of allGuilds) {
+            client.GuildConfigs.set(guild.guild_id, guild)
+        }
     }
 }

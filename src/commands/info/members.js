@@ -16,15 +16,16 @@ module.exports = {
 		.setDescription('The role to check')
 		.setRequired(true)
 	),
-	async execute (client, interaction) {
+	async execute (client, db_handler, interaction) {
 		try {
-			await interaction.reply({content: 'Εδώ είναι η λίστα των μελών με τον ρόλο **' + interaction.options.getMentionable('role').name + '**', ephemeral: true});
+			await interaction.deferReply({ephemeral: true})
 
 			const role = interaction.options.getMentionable('role')
 			await interaction.guild.members.fetch()
 			const members = interaction.guild.members.cache
 			const memberss = []
 			let counter = 0;
+
 			for ([id, member] of members) {
 				if(member.roles.cache.has(role.id)) {
 					counter++;
@@ -82,7 +83,6 @@ module.exports = {
 					}
 				}
 
-				await functions.sleep(1000);
 				Embeds.push(embed);
 
 				if(i == runs - 1) {
@@ -91,14 +91,14 @@ module.exports = {
 			}
 
 			while(while_state) {
-				functions.sleep(100);
+				functions.sleep(10);
 			}
 
-			interaction.channel.send({ embeds: Embeds });
+			interaction.editReply({ embeds: Embeds });
 
 		} catch (error) {
 			console.error(error);
-			functions.log(`Error in Command [Members] in ${interaction.guild.name}`, error)
+			functions.log(`Error in Command [Members] in ${interaction.guild.name}`)
 		}
 	}
 }

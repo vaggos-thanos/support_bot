@@ -14,25 +14,14 @@ module.exports = {
                 .setDescription('The channel to set as the wfs channel')
                 .setRequired(true)
         ),
-    async execute (client, interaction) {
+    async execute (client, db_handler, interaction) {
         try {
             if(functions.isAdmin(interaction.member)) {
-                await interaction.guild.members.fetch();
-                await interaction.guild.channels.fetch();
-    
                 let channel = interaction.options.getChannel('channel');
-                const guildConfig = await client.GuildConfigs.get(interaction.guild.id);
                 if(channel != undefined) {
-                    functions.updateDB(
-                        client, 
-                        'GuildConfig', 
-                        'wfs_channel_id', 
-                        channel.id, 
-                        'GuildConfigs', 
-                        (interaction.guild.id, [interaction.guild.id, guildConfig[1], channel.id, guildConfig[3], guildConfig[4], guildConfig[5], guildConfig[6]]), 
-                        'guild_id', 
-                        interaction.guild.id
-                    );
+                    const update = await db_handler.update_row('GuildConfig', 'wfs_channel_id', channel.id, 'guild_id', interaction.guild.id)
+                    await client.GuildConfigs.set(interaction.guild.id, update.data)
+
                     interaction.reply("wfs channel set to " + channel).then(msg => {
                         setTimeout(async () => {
                             await interaction.deleteReply();
@@ -41,7 +30,7 @@ module.exports = {
                 }
             }
         } catch (error) {
-            functions.log(`Error in command wfs: ${error}`, 'error');
+            functions.log(`Error in command wfs: ${error}`);
         }
     }
 }

@@ -14,23 +14,15 @@ module.exports = {
                 .setDescription('The role to set as the welcome role')
                 .setRequired(true)
         ),
-    async execute (client, interaction) {
+    async execute (client, db_handler, interaction) {
 
         try {
             if(functions.isAdmin(interaction.member)) {
                 let role = interaction.options.getRole('role');
-                const guildConfig = await client.GuildConfigs.get(interaction.guild.id);
                 if(role) {
-                    functions.updateDB(
-                        client, 
-                        'GuildConfig', 
-                        'role_id', 
-                        role.id, 
-                        'GuildConfigs', 
-                        (interaction.guild.id, [interaction.guild.id, guildConfig[1], guildConfig[2], guildConfig[3], role.id, guildConfig[5], guildConfig[6]]),
-                        'guild_id', 
-                        interaction.guild.id
-                    );
+                    const update = await db_handler.update_row('GuildConfig', 'role_id', role.id, 'guild_id', interaction.guild.id)
+                    await client.GuildConfigs.set(interaction.guild.id, update.data)
+
                     interaction.reply("Welcome role set to " + role.name).then(msg => {
                         setTimeout(async () => {
                             await interaction.deleteReply();

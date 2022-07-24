@@ -16,16 +16,16 @@ module.exports = {
         .setDescription('The message to say')
         .setRequired(true)
     ),
-    async execute (client, interaction) {
+    async execute (client, db_handler, interaction) {
         try {
 			await interaction.deferReply();
 
-            const test = interaction.options.getString('message');
+            const message = interaction.options.getString('message');
 
             if(functions.isAdmin(interaction.member)) {
                 const embed = new MessageEmbed();
                 embed.setAuthor({name: client.user.username, iconURL: client.user.displayAvatarURL()});
-                embed.setDescription(test);
+                embed.setDescription(message);
                 embed.setColor('#fcba03')
                 embed.setTimestamp()
                 embed.setThumbnail(client.user.displayAvatarURL())
