@@ -2,6 +2,8 @@ require('dotenv').config();
 const mysql = require('mysql2')
 const dbManager = require('./managers/dbManager')
 const SYSManager = require('./managers/sysManagers')
+const Functions = require("./utils/functions")
+global.functions = new Functions();
 const { Client, Collection, Intents } = require('discord.js');
 const client = new Client({
     fetchAllMembers: true,
@@ -18,10 +20,7 @@ const client = new Client({
     await db_handler.login(process.env.db_host, process.env.db_user, process.env.db_password, process.env.db);
 
     client.commands = new Collection();
-    client.aliases = new Collection();
     client.GuildConfigs = new Collection();
-
-    global.cmds = [];
 
     await system.Commands('../commands');
     await system.Events('../events');

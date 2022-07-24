@@ -29,7 +29,7 @@ class db_handler {
         })
 
         while(while_v) {
-            await sleep(1000)
+            await sleep(10)
         }
 
         return db;
@@ -48,7 +48,7 @@ class db_handler {
         })
 
         while(while_v) {
-            await sleep(1000)
+            await sleep(10)
         }
 
         return Rows[0];
@@ -65,7 +65,7 @@ class db_handler {
         })
 
         while(while_v) {
-            await sleep(1000)
+            await sleep(10)
         }
 
         return Rows[0][0];
@@ -86,7 +86,7 @@ class db_handler {
         })
 
         while(while_v) {
-            await sleep(1000)
+            await sleep(10)
         }
         return code[0];
     }
@@ -109,7 +109,7 @@ class db_handler {
         })
         
         while(while_v) {
-            await sleep(1000)
+            await sleep(10)
         }
 
         return code[0];
@@ -130,7 +130,7 @@ class db_handler {
         })
 
         while(while_v) {
-            await sleep(1000)
+            await sleep(10)
         }
 
         return code[0];
@@ -149,7 +149,7 @@ class db_handler {
         })
 
         while(while_v) {
-            await sleep(1000)
+            await sleep(10)
         }
 
         return Rows[0];

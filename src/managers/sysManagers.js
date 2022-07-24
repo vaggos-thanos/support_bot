@@ -169,4 +169,5 @@ function checkProperties(cmdName, cmdModule) {
         throw new Error(`${cmdName} command: aliases is not an Array`);
     return true;
 }
+
 module.exports = SYSManager;
