@@ -73,7 +73,6 @@ module.exports = {
 					}
 				}
 
-				//await functions.sleep(1000);
 				Embeds.push(embed);
 
 				if(i == runs - 1) {
