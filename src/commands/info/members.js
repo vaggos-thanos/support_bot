@@ -19,13 +19,13 @@ module.exports = {
 	async execute (client, db_handler, interaction) {
 		try {
 			await interaction.deferReply({ephemeral: true})
-			//await interaction.reply({content: 'Εδώ είναι η λίστα των μελών με τον ρόλο **' + interaction.options.getMentionable('role').name + '**', ephemeral: true});
 
 			const role = interaction.options.getMentionable('role')
 			await interaction.guild.members.fetch()
 			const members = interaction.guild.members.cache
 			const memberss = []
 			let counter = 0;
+
 			for ([id, member] of members) {
 				if(member.roles.cache.has(role.id)) {
 					counter++;
@@ -83,7 +83,6 @@ module.exports = {
 					}
 				}
 
-				await functions.sleep(1000);
 				Embeds.push(embed);
 
 				if(i == runs - 1) {
@@ -92,7 +91,7 @@ module.exports = {
 			}
 
 			while(while_state) {
-				functions.sleep(100);
+				functions.sleep(10);
 			}
 
 			interaction.editReply({ embeds: Embeds });

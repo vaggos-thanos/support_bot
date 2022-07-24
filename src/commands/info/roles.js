@@ -13,7 +13,7 @@ module.exports = {
 	.setDescription('Show the roles of the server'),
 	async execute (client, db_handler, interaction) {
 		try {
-			await interaction.reply({content: 'Εδώ είναι η λίστα με όλους τους ρόλους', ephemeral: true});
+			await interaction.deferReply({ephemeral: true})
 
 			let roles = []
 			let counter = 0;
@@ -73,7 +73,7 @@ module.exports = {
 					}
 				}
 
-				await functions.sleep(1000);
+				//await functions.sleep(1000);
 				Embeds.push(embed);
 
 				if(i == runs - 1) {
@@ -85,7 +85,7 @@ module.exports = {
 				functions.sleep(100);
 			}
 
-			interaction.channel.send({ embeds: Embeds });
+			interaction.editReply({ embeds: Embeds, ephemeral: true });
 
 		} catch (error) {
 			functions.log(`Error in Command [roles] in ${interaction.guild.name}`, error)
