@@ -36,6 +36,7 @@ module.exports = {
                     "wfs",
                     "set_avatar",
                     "set_username",
+                    "verify"
                 ]
 
                 const isAdminCmds = [

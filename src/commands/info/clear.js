@@ -21,7 +21,7 @@ module.exports = {
             return message.reply(`Τα μεγαλύτερα μηνύματα που μπορώ να διαγράψω είναι 100 αλλα προσπαθήσατε να διαγράψετε ` + '`' + count[0] + '`')
         }
         await interaction.channel.bulkDelete(parseInt(count), true).then(async (msg) => {
-            interaction.reply(`Το bot διαγράψε \`${msg.size}\` μηνύματα :broom:`)
+            interaction.reply(`**Το bot διαγράψε \`${msg.size}\` μηνύματα :broom:**`)
             setTimeout(async () => {
                 await interaction.deleteReply();
             }, 5000);
