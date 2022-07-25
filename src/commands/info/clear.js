@@ -18,11 +18,10 @@ module.exports = {
     async execute (client, db_handler, interaction) {
         const count = interaction.options.getNumber('amount');
         if(count[0] > 100) {
-            return message.reply(`The heighest messages that i can delete is 100 you tried to delete ` + '`' + count[0] + '`')
+            return message.reply(`Τα μεγαλύτερα μηνύματα που μπορώ να διαγράψω είναι 100 αλλα προσπαθήσατε να διαγράψετε ` + '`' + count[0] + '`')
         }
-        console.log(interaction.channel.messages.size)
         await interaction.channel.bulkDelete(parseInt(count), true).then(async (msg) => {
-            interaction.reply(`Bot cleared \`${msg.size}\` messages :broom:`)
+            interaction.reply(`Το bot διαγράψε \`${msg.size}\` μηνύματα :broom:`)
             setTimeout(async () => {
                 await interaction.deleteReply();
             }, 5000);

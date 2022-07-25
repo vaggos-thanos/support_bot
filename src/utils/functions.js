@@ -43,9 +43,10 @@ class functions {
                 "956181908746817546", // owner
                 "970175894167621723", // developer
                 "970563614593413151", // star
+                "985666598792749106", // manager
                 "966087756210122762", // rolesm
                 "829852428164923392", // Head admin
-                "963897569656860672" // Admin
+                "1000872316382752882", // Partner
             ]
 
             const state = roles.reduce((result, role) => {
@@ -60,12 +61,11 @@ class functions {
 
     async isOwner(member) {
         try {
-            const users = ['667357315950706704', '588416409407848457']
+            const users = ['667357315950706704']
 
             const state = users.reduce((result, user) => {
                 return result || user == member.id
             }, false);
-
             return state;
 
         } catch (error) {

@@ -17,11 +17,11 @@ module.exports = {
 			embed.setAuthor({name: client.user.username, iconURL: client.user.displayAvatarURL()});
 			embed.setTitle('**❗Ping**\n--------------');
 			embed.addField('➡️ Latence:', `**__-> ${Date.now() - interaction.createdTimestamp}ms__**`);
-			interaction.reply({ embeds: [embed]});
+			interaction.reply({ embeds: [embed], ephemeral: true });
 
 		} catch (error) {
 			console.error(error);
-			functions.log(`Error in Command [Ping] in ${interaction.guild.name}`, error)
+			functions.log(`Error in Command [Ping] in ${interaction.guild.name}`)
 		}
 
 	}

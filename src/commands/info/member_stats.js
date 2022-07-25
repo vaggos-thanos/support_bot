@@ -11,14 +11,15 @@ module.exports = {
     data: new SlashCommandBuilder()
     .setName('member_stats')
     .setDescription('Shows the stats of a member')
-    .addMentionableOption(option => 
+    .addUserOption(option => 
         option.setName('member')
         .setDescription('The member you want to see the stats')
         .setRequired(true)
     ),
     async execute (client, db_handler, interaction) {
-        const member = interaction.options.getMentionable('member');
-
+        const user = interaction.options.getUser('member');
+        const member = interaction.guild.members.cache.get(user.id);
+        
         const joined_server = member.joinedAt
         const joined_discord = new Date(member.user.createdAt)
         let   server_booster = member.premiumSinceTimestamp

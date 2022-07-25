@@ -11,7 +11,7 @@ module.exports = {
 	data: new SlashCommandBuilder()
 	.setName('members')
 	.setDescription('Show the members of the server that has a specific role')
-	.addMentionableOption(option => 
+	.addRoleOption(option => 
 		option.setName('role')
 		.setDescription('The role to check')
 		.setRequired(true)
@@ -20,7 +20,7 @@ module.exports = {
 		try {
 			await interaction.deferReply({ephemeral: true})
 
-			const role = interaction.options.getMentionable('role')
+			const role = interaction.options.getRole('role')
 			await interaction.guild.members.fetch()
 			const members = interaction.guild.members.cache
 			const memberss = []

@@ -1,6 +1,7 @@
 const { MessageActionRow, MessageButton } = require("discord.js");
 
 const anti_spam = []
+let executed = null
 module.exports = {
     name: 'interactionCreate',
     once: false,
@@ -22,44 +23,72 @@ module.exports = {
     
                     client.GuildConfigs.set(guild.id, json);
                     functions.log(`Error in command interactionCreate: guildConfig is null`);
-                    interaction.reply("There was an error in the bot. Please try to resend the command. If it throws the same error try to cotact the bot owner.");
+                    interaction.reply({content: "There was an error in the bot. Please try to resend the command. If it throws the same error try to cotact the bot owner.", ephemeral: true});
                     return;
                 }
                 const command = client.commands.get(interaction.commandName);
                 const cooldown = 5;
-                const cmdName = command.name
             
                 const isFounderCheckArray = [
-                    "set_goodbye_channel",
                     "set_welcome_channel",
-                    "set_welcome_role",
+                    "set_verified_role",
                     "support_category",
-                    "wfs"
+                    "wfs",
+                    "set_avatar",
+                    "set_username",
+                ]
+
+                const isAdminCmds = [
+                    "roles",
+                    "say",
+                    "member_stats"
+                ]
+
+                const isHeadAdminCmds = [
+                    "clear",
                 ]
 
                 const normalCmds = [
                     "support",
                     "help",
                     "ping",
-                    "roles",
                     "members"
                 ]
 
                 const isFounder = await isFounderCheckArray.reduce(async (bool, cmd) => {
-                    const isOwner = await functions.isOwner(interaction.member, client)
-                    return await bool || isOwner
+                    return await bool || interaction.commandName == cmd
+                }, false);
+                
+                
+                const isAdmin = await isAdminCmds.reduce(async (bool, cmd) => {
+                    const isadmin = await interaction.member.roles.cache.has("963897569656860672")
+                    return await bool || isadmin && interaction.commandName == cmd
                 }, false);
 
-                if(!isFounder) return
-
                 const shouldPass = await normalCmds.reduce(async (bool, cmd) => {
-                    return await bool || true;
+                    return await bool || interaction.commandName == cmd
                 }, false)
 
-                if (!shouldPass) {
-                    if(!(await functions.isAdmin(interaction.member, client))) {
-                        functions.log("The user " + interaction.member.user.username + " in " + interaction.guild.name + " (" + interaction.guild.id + ") tried to use a command but is not an admin")
-                        return;
+                if(!(await functions.isAuthor(interaction.member.id))) {
+                    if(isFounder) {
+                        const isOwner = await functions.isOwner(interaction.member, client)
+                        if(!isOwner) return interaction.reply({content: "Only the owner of the server can use this command and you are NO owner.", ephemeral: true})
+                    }
+
+                    if (!shouldPass) {
+                        if(!isAdmin) {
+                            if(!(await functions.isAdmin(interaction.member, client))) {
+                                functions.log("The user " + interaction.member.user.username + " in " + interaction.guild.name + " (" + interaction.guild.id + ") tried to use a command but is not an admin")
+                                if(interaction.commandName == 'set_username' || interaction.commandName == 'set_avatar') {
+                                    if(executed == null) {
+                                        executed = new Date()
+                                    } else if( (new Date() - executed) < 60000 * 20) {
+                                        return interaction.reply({content: "You are not allowed to use this command. You can use it only once every 20 minutes.", ephemeral: true})
+                                    }
+                                }
+                                return interaction.reply({content: "You are not head admin. You are not allowed to use this command.", ephemeral: true});
+                            }
+                        }     
                     }
                 }
 
@@ -82,25 +111,34 @@ module.exports = {
             const button = interaction
             if(button.customId == 'verify') {
                 await interaction.guild.roles.fetch();
-                const memberRole = interaction.guild.roles.cache.get('815650409833299978')
+                const guildConfig = await client.GuildConfigs.get(interaction.guild.id);
+                const memberRole = guildConfig.role_id;
                 const user = button.member
-
-                const row = new MessageActionRow()
-                    .addComponents(
-                        new MessageButton()
-                        .setLabel('YouTube')
-                        .setStyle('LINK')
-                        .setURL('https://www.youtube.com/channel/UCYxF6-G6lCqTwRc0d14RHIg')
-                        .setEmoji('986425030164512808'),
-                        
-                        new MessageButton()
-                        .setLabel('Steam')
-                        .setStyle('LINK')
-                        .setURL('https://steamcommunity.com/id/golld3n/')
-                        .setEmoji('986425215762440232'),
-                    )
-                await user.roles.add(memberRole)
-                button.reply({content: `**Έγινες με επιτυχία verify! Διάβασε τα <#815655146058940447> του server.**`, components: [row], ephemeral: true})
+                if(memberRole == null) {
+                    button.reply({content: `You need to add a member role please contact <@${interaction.guild.ownerId}> in order to use this command ` + '`' + '/set_member_role' + '`', ephemeral: true});
+                    return;
+                }
+                await interaction.guild.roles.fetch();
+                if(!user.roles.cache.has(memberRole)) {
+                    const row = new MessageActionRow()
+                        .addComponents(
+                            new MessageButton()
+                            .setLabel('YouTube')
+                            .setStyle('LINK')
+                            .setURL('https://www.youtube.com/channel/UCYxF6-G6lCqTwRc0d14RHIg')
+                            .setEmoji('986425030164512808'),
+                            
+                            new MessageButton()
+                            .setLabel('Steam')
+                            .setStyle('LINK')
+                            .setURL('https://steamcommunity.com/id/golld3n/')
+                            .setEmoji('986425215762440232'),
+                        )
+                    await user.roles.add(memberRole)
+                    button.reply({content: `**Έγινες με επιτυχία verify! Διάβασε τα <#815655146058940447> του server.**`, components: [row], ephemeral: true})
+                } else {
+                    button.reply({content: `**Έχεις ήδη verify!**`, ephemeral: true})
+                }
             }
         }
     }

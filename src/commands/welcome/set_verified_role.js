@@ -1,17 +1,17 @@
 const { SlashCommandBuilder } = require('@discordjs/builders');
 
 module.exports = {
-    name: 'set_welcome_role',
+    name: 'set_verified_role',
     category: 'welcome',
     runCommand: true,
     cooldown: 5, /* secoonds */
-    description: 'Set the welcome role for the server',
+    description: 'Set the member role for the server',
     data: new SlashCommandBuilder()
-        .setName('set_welcome_role')
-        .setDescription('Set the welcome role for the server')
+        .setName('set_verified_role')
+        .setDescription('Set the member role for the server')
         .addRoleOption(option =>
             option.setName('role')
-                .setDescription('The role to set as the welcome role')
+                .setDescription('The role to set as the member role')
                 .setRequired(true)
         ),
     async execute (client, db_handler, interaction) {
