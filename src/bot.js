@@ -21,7 +21,11 @@ const client = new Client({
 
     client.commands = new Collection();
     client.GuildConfigs = new Collection();
+    client.UsersConfigs = new Collection();
+    client.Tickets = new Collection();
+    client.TicketsConfigs = new Collection();
 
+    await system.init(['GuildConfigs', 'UsersConfigs', 'Tickets', 'TicketsConfigs'], [client.GuildConfigs, client.UsersConfigs, client.Tickets, client.TicketsConfigs]);
     await system.Commands('../commands');
     await system.Events('../events');
 
