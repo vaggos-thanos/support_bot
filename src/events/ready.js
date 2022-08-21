@@ -1,3 +1,5 @@
+const { ServerStatasService } = require("../Services/ServerStats.services");
+
 module.exports = {
     name: 'ready',
     once: false,
@@ -22,11 +24,8 @@ module.exports = {
             client.user.setActivity(`${client.guilds.cache.size} servers | ${usersCount - botUsers} users`, { type: 'WATCHING' });
         }, 10000);
 
-        // initialize the local database
-
-        const allGuilds = await db_handler.get_all_rows('GuildConfig')
-        for(guild of allGuilds) {
-            client.GuildConfigs.set(guild.guild_id, guild)
-        }
+        // initialize the discord stats service
+        const serverStatasService = new ServerStatasService(client);
+        serverStatasService.update_stats('746856547086499893');
     }
 }

@@ -5,7 +5,7 @@ module.exports = {
         try {
             functions.log('Bot leave guild: ' + guild.name);
 
-            db_handler.delete_row('GuildConfig', 'guild_id', guild.id)
+            db_handler.delete_row('GuildConfigs', 'guild_id', guild.id)
             await client.GuildConfigs.delete(guild.id);
     
         } catch (error) {

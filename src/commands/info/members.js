@@ -34,10 +34,10 @@ module.exports = {
 				}
 			}
 
-			let runs = Math.ceil(counter / 10);
+			let players_max = 24;
+			let runs = Math.ceil(counter / players_max);
 			let i = 0;
 			let new_members = [];
-			let players_max = 10;
 
 			if(runs == 0 ) {
 				await interaction.editReply({ content: '**Ο ρόλος δεν έχει μέλη!**' });
@@ -63,13 +63,16 @@ module.exports = {
 				const fieldCount = 1;
 				let fields = new Array(fieldCount);
 				fields.fill('');
+				var iiii = 0;
 				
 				const embed = new MessageEmbed();
 				embed.setAuthor({name: client.user.username, iconURL: client.user.displayAvatarURL()});
 				embed.setThumbnail(client.user.displayAvatarURL())
-				embed.setDescription(`${role}`)
+				if(i == 0) {
+					const membercount = interaction.guild.members.cache.filter(member => member.roles.cache.has(role.id)).size;
+					embed.setDescription(`${role} - ` + '`' + `${membercount} users`+ '`')
+				}
 				embed.setColor('#fcba03')
-				var iiii = 0;
 
 				for (data of new_members[i]) {
 					fields[(iiii+1)%fieldCount] += data[0]; // first 12 characters of players name

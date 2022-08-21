@@ -34,6 +34,28 @@ class db_handler {
 
         return db;
     }
+    
+    async init(db_names, local_dbs) {
+        let counter = 0
+        while(counter < db_names.length) {
+            const db_data = await this.get_all_rows(db_names[counter]);
+            let counter1 = 0
+            while(counter1 < db_data.length) {
+                let key;
+                const data = db_data[counter1];
+                if(db_names[counter] == 'UsersConfigs' && db_names[counter] == 'Tickets' ) {
+                    key = data.user_id
+                } else {   
+                    key = data.guild_id
+                }
+                local_dbs[counter].set(key, data);
+                counter1++
+            }
+            counter++;              
+        }
+        console.log(colors.green('[+] Local Database initialized!'));
+        return {done: true}
+    }
 
     async get_all_rows(table_name) {
         let while_v = true

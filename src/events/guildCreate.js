@@ -5,7 +5,7 @@ module.exports = {
         try {
             functions.log('Bot join guild: ' + guild.name);
 
-            db_handler.create_row('GuildConfig', 'guild_id', guild.id)
+            db_handler.create_row('GuildConfigs', 'guild_id', guild.id)
     
             const json = {
                 guild_id: guild.id,

@@ -25,7 +25,7 @@ const client = new Client({
     client.Tickets = new Collection();
     client.TicketsConfigs = new Collection();
 
-    await system.init(['GuildConfigs', 'UsersConfigs', 'Tickets', 'TicketsConfigs'], [client.GuildConfigs, client.UsersConfigs, client.Tickets, client.TicketsConfigs]);
+    await db_handler.init(['GuildConfigs', 'UsersConfigs', 'Tickets', 'TicketsConfigs'], [client.GuildConfigs, client.UsersConfigs, client.Tickets, client.TicketsConfigs]);
     await system.Commands('../commands');
     await system.Events('../events');
 

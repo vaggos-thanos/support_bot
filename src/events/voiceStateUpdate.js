@@ -13,13 +13,10 @@ module.exports = {
             Promise.all(members.map(async member => {
                 if(userID === member.id){
                     functions.log('A user joined a voice channel');
-                    console.log(guildConfig)
                     const channel1 = guildConfig.wfs_channel_id
-                    console.log(channel1)
-                    console.log(newUserChannel)
                     if(newUserChannel === channel1) {
-                        await functions.sleep(2000)
-                        guild.channels.create(`📞 ${member.user.username} support room`, {
+                        await functions.sleep(100)
+                        guild.channels.create(`📞${member.user.username} support⚡`, {
                             type: 'GUILD_VOICE',
                             permissionOverwrites: [{
                             id: guild.id,
@@ -34,7 +31,7 @@ module.exports = {
                         }).catch(console.error);
                     }
                             
-                    const userchannel = await guild.channels.cache.find(c => c.name === `📞 ${member.user.username} support room` )
+                    const userchannel = await guild.channels.cache.find(c => c.name === `📞${member.user.username} support⚡` )
                     if(userchannel === undefined) return;
                     if(oldUserChannel === userchannel.id && newUserChannel !== userchannel.id){
                         userchannel.delete();
