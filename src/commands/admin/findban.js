@@ -19,7 +19,7 @@ module.exports = {
     async execute (client, db_handler, interaction) {
         try {
             const user = interaction.options.getString('userid');
-            const ban_userinfo = await interaction.guild.bans.fetch(user);
+            const ban_userinfo = typeof user === "number" ? await interaction.guild.bans.fetch(user) : null;
             const member = ban_userinfo.user 
 
             if(ban_userinfo !== undefined || ban_userinfo !== null) {
