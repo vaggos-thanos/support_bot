@@ -48,6 +48,16 @@ module.exports = {
                 embed.setThumbnail(member.displayAvatarURL())
 
                 await interaction.reply({embeds: [embed], ephemeral: true});
+            } else {
+                // emebed error message
+                const embed = new MessageEmbed()
+                .setColor('#ff0000')
+                .setTitle('User was not found') 
+                .setDescription(`${user} was not found`)
+                .setTimestamp()
+                .setThumbnail(client.user.displayAvatarURL())
+                await interaction.reply({ embeds: [embed], ephemeral: true });
+
             }
         } catch (error) {
             console.log(error)
