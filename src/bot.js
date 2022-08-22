@@ -24,6 +24,7 @@ const client = new Client({
     client.UsersConfigs = new Collection();
     client.Tickets = new Collection();
     client.TicketsConfigs = new Collection();
+    client.voiceSessions = new Collection()
 
     await db_handler.init(['GuildConfigs', 'UsersConfigs', 'Tickets', 'TicketsConfigs'], [client.GuildConfigs, client.UsersConfigs, client.Tickets, client.TicketsConfigs]);
     await system.Commands('../commands');

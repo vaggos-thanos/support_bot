@@ -22,7 +22,7 @@ module.exports = {
             const ban_userinfo = typeof user === "number" ? await interaction.guild.bans.fetch(user) : null;
             console.log(ban_userinfo);
             if(ban_userinfo != undefined || ban_userinfo != null) {
-                const member = ban_userinfo.user             
+                const member = ban_userinfo.user
                 const joined_discord = new Date(member.createdAt)
                 const id = member.id
                 const isBot = member.bot ? "Yeap 🤖" : "Nope 👀"

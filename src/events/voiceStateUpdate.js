@@ -15,7 +15,7 @@ module.exports = {
                     functions.log('A user joined a voice channel');
                     const channel1 = guildConfig.wfs_channel_id
                     if(newUserChannel === channel1) {
-                        await functions.sleep(100)
+                        await functions.sleep(800)
                         guild.channels.create(`📞${member.user.username} support⚡`, {
                             type: 'GUILD_VOICE',
                             permissionOverwrites: [{
@@ -24,17 +24,22 @@ module.exports = {
                             deny: 'CONNECT'
                             }]
                         }).then(channel1 => {
+                            client.voiceSessions.set(userID, channel1.id)
+                            console.log(client.voiceSessions)
                             let category = guild.channels.cache.get(guildConfig.wfs_category_id)
                             if (!category) throw new Error("Category channel does not exist")
                             channel1.setParent(category.id)
                             member.voice.setChannel(channel1)
                         }).catch(console.error);
                     }
-                            
-                    const userchannel = await guild.channels.cache.find(c => c.name === `📞${member.user.username} support⚡` )
-                    if(userchannel === undefined) return;
+                    
+                    const channelID = await client.voiceSessions.get(userID)
+                    const userchannel = channelID ? await guild.channels.cache.get(channelID) : await guild.channels.cache.find(c => c.name === `📞${member.user.username} support⚡` )
+
+                    if(userchannel == undefined) return;
                     if(oldUserChannel === userchannel.id && newUserChannel !== userchannel.id){
                         userchannel.delete();
+                        console.log(`Deleted channel for ${member.user.username}`)
                     }
                     return;
                 }

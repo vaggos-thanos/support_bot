@@ -33,7 +33,9 @@ module.exports = {
             .setDescription(`You have been kicked from ${interaction.guild.name} for \n `+ "```" + `${reason}` + "```")
             .setColor('#ff0000')
 
-            await user.send(embed);
+            await user.send(embed).catch(err => {
+                console.log(err);
+            })
 
             const embed2 = new MessageEmbed()
             .setTitle('User has been kicked')

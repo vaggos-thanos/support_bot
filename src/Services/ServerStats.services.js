@@ -40,7 +40,7 @@ class ServerStatasService {
             
             //await update(channels, stats)
 
-            setTimeout(async () => {
+            setInterval(async () => {
                 const stats = await this.get_stats(guild)
                 await update(channels, stats)
             }, 1000 * 60 * 5)
@@ -56,6 +56,8 @@ async function update(data, stats){
     data.channel_C.setName(`📚Channels: ${stats.channel_count}`)
     data.role_C.setName(`📒Roles: ${stats.role_count}`)
     data.boost_C.setName(`🔮Boosts: ${stats.boost_count}`)
+
+    functions.log(`Updated stats for ${data.member_C.guild.name}`)
 }
 
 module.exports = { ServerStatasService }
