@@ -38,7 +38,7 @@ class ServerStatasService {
             }
             const stats = await this.get_stats(guild)
             
-            //await update(channels, stats)
+            await update(channels, stats)
 
             setInterval(async () => {
                 const stats = await this.get_stats(guild)
