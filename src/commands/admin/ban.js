@@ -33,7 +33,6 @@ module.exports = {
             .setDescription(`You have been banned from ${interaction.guild.name} for \n `+ "```" + `${reason}` + "```")
             .setColor('#ff0000')
 
-            await user.send(embed);
 
             const embed2 = new MessageEmbed()
             .setTitle('User has been banned')
@@ -41,6 +40,9 @@ module.exports = {
             .setColor('#ff0000')
 
             await interaction.reply({ embed: embed2, ephemeral: true });
+
+            await user.send(embed);
+
         } catch (error) {
             console.log(error)
             functions.log(`Error in Command [Commands] in ${interaction.guild.name}`)

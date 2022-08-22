@@ -11,21 +11,24 @@ module.exports = {
     data: new SlashCommandBuilder()
     .setName('unban')
     .setDescription('Unban a user')
-    .addUserOption(option =>
-        option.setName('user')
+    .addStringOption(option =>
+        option.setName('userid')
         .setDescription('The user to unban')
         .setRequired(true)
     ),
     async execute (client, db_handler, interaction) {
         try {
-            const user = interaction.options.getUser('user');
+            const user = interaction.options.getString('userid');
+            const isnum = /^\d+$/.test(user)
+            const banned_user = isnum ? await interaction.guild.bans.fetch(user) : null;
+ 
 
-            await interaction.guild.members.unban(user);
+            await interaction.guild.members.unban(banned_user);
 
             const embed = new MessageEmbed()
             .setColor('#00ff00')
             .setTitle('User has been unbanned')
-            .setDescription(`${user.tag} has been unbanned from ${interaction.guild.name}`)
+            .setDescription(`${banned_user.tag} has been unbanned from ${interaction.guild.name}`)
 
             await interaction.reply({ embed: embed, ephemeral: true });
         } catch (error) {

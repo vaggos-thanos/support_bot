@@ -4,18 +4,24 @@ class ServerStatasService {
     }
 
     async get_stats(guild) {
-        await guild.members.fetch();
-        const member_count = await guild.members.cache.filter(member => member.user.bot === false).size;
-        const channel_count = await guild.channels.cache.size;
-        const role_count = await guild.roles.cache.size;
-        const boost_count = await guild.premiumSubscriptionCount;
+        try {
+            await guild.members.fetch();
+            const member_count = await guild.members.cache.filter(member => member.user.bot === false).size;
+            const channel_count = await guild.channels.cache.size;
+            const role_count = await guild.roles.cache.size;
+            const boost_count = await guild.premiumSubscriptionCount;
+            
+            return {
+                member_count,
+                channel_count,
+                role_count,
+                boost_count
+            }
+        } catch (error) {
+            console.log(error)
+            functions.log(error)
+        }   
 
-        return {
-            member_count,
-            channel_count,
-            role_count,
-            boost_count
-        }
     }
     
     async update_stats(guild_id) {
