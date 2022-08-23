@@ -10,7 +10,12 @@ module.exports = {
  
 	data: new SlashCommandBuilder()
 	.setName('ping')
-	.setDescription('Ping the bot'),
+	.setDescription('Ping the bot')
+	.addStringOption(option => 
+		option.setName('type')
+		.setDescription('Ping type')
+		.setRequired(false)
+	),
 	async execute (client, db_handler, interaction) {
 		try {
 			const embed = new MessageEmbed();

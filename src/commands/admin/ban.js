@@ -26,23 +26,23 @@ module.exports = {
             const user = interaction.options.getUser('user');
             const reason = interaction.options.getString('reason');
 
-            await interaction.guild.members.ban(user, {reason: reason});
+            await interaction.guild.members.ban(user, {reason: reason == null ? "There is no reason" : reason});
 
             const embed = new MessageEmbed()
             .setTitle('You have been banned')
-            .setDescription(`You have been banned from ${interaction.guild.name} for \n `+ "```" + `${reason}` + "```")
+            .setDescription(`You have been banned from ${interaction.guild.name} for \n `+ "```" + `${reason == null ? "There is no reason" : reason}` + "```")
             .setColor('#ff0000')
 
 
             const embed2 = new MessageEmbed()
             .setTitle('User has been banned')
-            .setDescription(`${user.tag} has been banned from ${interaction.guild.name} for \n `+ "```" + `${reason}` + "```")
+            .setDescription(`${user.tag} has been banned from ${interaction.guild.name} for \n `+ "```" + `${rereason == null ? "There is no reason" : reasonason}` + "```")
             .setColor('#ff0000')
 
-            await interaction.reply({ embed: embed2, ephemeral: true });
+            await interaction.reply({ embeds: [embed2], ephemeral: true });
 
-            await user.send(embed);
-
+            await user.send({embeds: [embed]})
+            
         } catch (error) {
             console.log(error)
             functions.log(`Error in Command [Commands] in ${interaction.guild.name}`)

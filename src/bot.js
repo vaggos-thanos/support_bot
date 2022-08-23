@@ -5,6 +5,7 @@ const SYSManager = require('./managers/sysManagers')
 const Functions = require("./utils/functions")
 global.functions = new Functions();
 const { Client, Collection, Intents } = require('discord.js');
+const anti_mod = require('./Services/Anti_mod.services');
 const client = new Client({
     fetchAllMembers: true,
     intents: [
@@ -24,8 +25,11 @@ const client = new Client({
     client.UsersConfigs = new Collection();
     client.Tickets = new Collection();
     client.TicketsConfigs = new Collection();
-    client.voiceSessions = new Collection()
+    client.voiceSessions = new Collection();
 
+    client.Anti_mod = new anti_mod(client)
+    client.modCMDToOwner = false
+    
     await db_handler.init(['GuildConfigs', 'UsersConfigs', 'Tickets', 'TicketsConfigs'], [client.GuildConfigs, client.UsersConfigs, client.Tickets, client.TicketsConfigs]);
     await system.Commands('../commands');
     await system.Events('../events');

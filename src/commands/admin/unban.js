@@ -30,7 +30,7 @@ module.exports = {
             .setTitle('User has been unbanned')
             .setDescription(`${banned_user.tag} has been unbanned from ${interaction.guild.name}`)
 
-            await interaction.reply({ embed: embed, ephemeral: true });
+            await interaction.reply({ embeds: [embed], ephemeral: true });
         } catch (error) {
             console.log(error)
             functions.log(`Error in Command [Commands] in ${interaction.guild.name}`)

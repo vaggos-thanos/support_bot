@@ -27,6 +27,9 @@ module.exports = {
                         interaction.reply({content: "There was an error in the bot. Please try to resend the command. If it throws the same error try to cotact the bot owner.", ephemeral: true});
                         return;
                     }
+
+                    if (await client.Anti_mod.execute(interaction)) return;
+                    
                     const command = await client.commands.get(interaction.commandName);
                     const cooldown = 5;
                 

@@ -20,7 +20,7 @@ module.exports = {
         try {
             const user = interaction.options.getString('userid');
             const isnum = /^\d+$/.test(user)
-            const ban_userinfo = isnum ? parseInt(isnum) >= 9223372036854775807 ? await interaction.guild.bans.fetch(user) : null : null;
+            const ban_userinfo = isnum ? parseInt(user) <= 9223372036854775807 ? await interaction.guild.bans.fetch(user) : null : null;
 
             if(ban_userinfo != undefined || ban_userinfo != null) {
                 const member = ban_userinfo.user
