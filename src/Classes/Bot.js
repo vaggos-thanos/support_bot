@@ -139,6 +139,7 @@ class Bot extends Client {
         await this.dbManager.init(['GuildConfigs', 'UsersConfigs', 'Tickets', 'TicketsConfigs'], [this.GuildConfigs, this.UsersConfigs, this.Tickets, this.TicketsConfigs]);
         await this.InitCommands('../commands');
         await this.InitEvents('../listeners');
+        await this.InitButtons('../buttons');
         await super.login(token);
     }
 }
