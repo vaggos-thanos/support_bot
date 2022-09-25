@@ -4,7 +4,8 @@ const path = require("path");
 const { REST } = require('@discordjs/rest');
 const { Routes } = require('discord-api-types/v9');
 const db_handler = require("./dbManager");
-
+const ticket_service = require("../services/ticket.service");
+const mysql = require('mysql2')
 class Bot extends Client {
     constructor(args) {
         super(args);
@@ -18,7 +19,8 @@ class Bot extends Client {
         this.Tickets = new Collection();
         this.TicketsConfigs = new Collection();
         this.voiceSessions = new Collection();
-        this.dbManager = new db_handler(this);
+        this.dbManager = new db_handler(mysql);
+        this.ticket_service = new ticket_service(this)
     }
 
     async InitCommands(dir) {
@@ -78,6 +80,7 @@ class Bot extends Client {
     }
 
     async SlashCommandBuild(ClientID, GuildID, scope) {
+        console.log(`Building slash command for ${GuildID}`)
         const SlashCommands = [];
 
         await this.InitCommands('../commands');
@@ -95,7 +98,6 @@ class Bot extends Client {
             console.log(`Slash Command is Ready for Build: ${name}`)
         }
 
-        // SlashCommands.forEach(cmd => {console.log(cmd.options)})
         console.log(`Registering slash commands for ${GuildID}`);
         console.log(`Client ID: ${ClientID}`);
         const rest = new REST({ version: '9' }).setToken(process.env.TOKEN);
@@ -116,31 +118,16 @@ class Bot extends Client {
         }
     }
 
-    async InitButtons(dir) {
-        const buttons = fs.readdirSync(path.join(__dirname, dir))
-        for (const file of buttons) {
-            if(file.endsWith('.js')) {
-                if (file.split(".js")[0] == "index"){
-                    const CmdFile = require(path.join(__dirname, dir, file))
-                    const button = new CmdFile(this)
-                    this.buttons.set(button.name, button)
-                    console.log(`Loaded ButtonHandler: ${button.name}`)
-                }
-            } else if (fs.lstatSync(path.join(__dirname, dir, file)).isDirectory()) {
-                this.InitButtons(path.join(dir, file))
-            } else {
-                console.log(`Ignored file: ${file}`)
-            }
-        }
-    }
-
     async Start(token) {
         await this.dbManager.login(process.env.db_host, process.env.db_user, process.env.db_password, process.env.db)
         await this.dbManager.init(['GuildConfigs', 'UsersConfigs', 'Tickets', 'TicketsConfigs'], [this.GuildConfigs, this.UsersConfigs, this.Tickets, this.TicketsConfigs]);
         await this.InitCommands('../commands');
         await this.InitEvents('../listeners');
-        await this.InitButtons('../buttons');
         await super.login(token);
+    }
+
+    TEST() {
+        console.log("test")
     }
 }
 

@@ -1,11 +1,14 @@
 const { SlashCommandBuilder, SlashCommandSubcommandBuilder } = require('@discordjs/builders');
 
 class Command {
-    constructor(name, description, cooldown, ownerOnly) {
+    constructor(name, description, cooldown, ownerOnly, permissions, OnlyRoles, OnlyUsers) {
         this.name = name;
         this.description = description;
         this.cooldown = cooldown;
         this.ownerOnly = ownerOnly;
+        this.permissions = permissions;
+        this.OnlyRoles = OnlyRoles;
+        this.OnlyUsers = OnlyUsers;
     }
 
     getSlashCommandBuilder() {
@@ -14,7 +17,7 @@ class Command {
             .setDescription(this.description)
     }
 
-    run(interaction, db) {}
+    run(interaction) {}
 }
 
 class SubCommandHandler extends Command {

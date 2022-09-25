@@ -1,8 +1,8 @@
 const Event = require('../Classes/Event.js')
 
-module.exports = class onCommand extends Event {
+module.exports = class onButton extends Event {
     constructor(client) {
-        super('interactionCreate', false);
+        super('interactionCreate');
         this.client = client;
     }
 

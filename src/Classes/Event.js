@@ -1,10 +1,10 @@
 class Event {
     constructor(name, once) {
         this.name = name;
-        this.once = once;
+        this.once = once == undefined ? false : once;
     }
 
-    run(db, ...args) {}
+    run(...args) {}
 }
 
 module.exports = Event;

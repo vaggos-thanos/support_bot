@@ -1,16 +1,16 @@
 const { Button } = require("../Classes/Button");
 
-class delete_ticket extends Button {
+class reopen_ticket extends Button {
     constructor(client) {
-        super("delete_ticket");
+        super("reopen_ticket");
         this.client = client;
     }
 
     getButtonBuilder() {
         const builder = super.getButtonBuilder();
-        builder.setLabel("Delete Ticket");
-        builder.setStyle('DANGER');
-        builder.setEmoji('🔒')
+        builder.setLabel("Reopen Ticket");
+        builder.setStyle('SUCCESS');
+        builder.setEmoji('🔓')
 
         return builder;
     }
@@ -20,4 +20,4 @@ class delete_ticket extends Button {
     }
 }
 
-module.exports = delete_ticket
+module.exports = reopen_ticket
