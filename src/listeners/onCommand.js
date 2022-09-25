@@ -17,7 +17,7 @@ module.exports = class onCommand extends Event {
             const permissions = command.permissions != '' ? command.permissions : null;
             const OnlyRoles = command.OnlyRoles != '' ? command.OnlyRoles : null;
             const OnlyUsers = command.OnlyUsers != '' ? command.OnlyUsers : null;
-
+            
             if (permissions != null) {
                 for(const permission of permissions) {
                     if (!interaction.member.permissions.has(permission)) {
