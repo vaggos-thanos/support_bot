@@ -2,7 +2,7 @@ const colors = require('ansi-colors');
 const { MessageEmbed } = require('discord.js');
 
 class functions {
-    async log(str) {
+    async log(str, error) {
         function formatDate(date) {
             var day = date.getDate();
             var month = date.getMonth() + 1;
@@ -20,8 +20,12 @@ class functions {
 
             return `${hours}:${mins}:${secs} ${day}/${month}/${year}`;
         }
-        
-        console.log(`${colors.cyan(`[${formatDate(new Date())}]:`)} ${str}`);
+        if(error) {
+            console.log(colors.red(`[${formatDate(new Date())}] ${str}`));
+            console.log(error);
+        } else {
+            console.log(`${colors.cyan(`[${formatDate(new Date())}]:`)} ${str}`);
+        }
         
     }
 
@@ -87,7 +91,8 @@ class functions {
             const guild = client.guilds.cache.get(guildId);
             const channel = guild.channels.cache.get('746856547086499896')
             const channel1 = guild.channels.cache.get('970199739092070400')
-            const message = "👋 Γειά σας @everyone, Εαν θέλετε να βρείτε τα Socials μου, τοτε τσεκάρετε αυτό το link (https://tiny.cc/golld3n) οπου εκεί βρίσκονται όλοι οι συνδέσμοι και τα προσωπικά μου socials."
+            //replace the bellow line with the use of language class
+            const message = client.language.LangTranslate('autoMessage', guildId);
             const time = 1000 * 60 * 60 * 24 * 2 // 1 day
             //sendMessage(channel, channel1, message)
 

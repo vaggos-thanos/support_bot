@@ -1,17 +1,21 @@
 const { MessageEmbed } = require("discord.js");
+const Event = require("../Classes/Event");
 
-module.exports = {
-    name: 'guidMemberAdd',
-    once: false,
-    async execute(client, db_handler, member) {
+module.exports = class onGuildMemberAdd extends Event {
+    constructor(client) {
+        super('guidMemberAdd', false);
+        this.client = client;
+    }
+
+    async run(member) {
         try {
-            const guildConfig = await client.GuildConfigs.get(member.guild.id);
+            const guildConfig = await this.client.GuildConfigs.get(member.guild.id);
             const channel = member.guild.channels.cache.get(guildConfig.welcome_channel_id);
             
             const embed = new MessageEmbed()
             .setColor('#fcba03')
-            .setDescription(`👋Γεια <@${member.id}>, καλωσήρθες στο 👑𝐆𝐎𝐋𝐃𝟑𝐍'𝐒 𝐂𝐎𝐌𝐌𝐔𝐍𝐈𝐓𝐘✌, διάβασε τους κανόνες και προσπάθησε να τους εφαρμώσεις!`)
-            .setThumbnail(client.user.displayAvatarURL())
+            .setDescription(this.client.language.LangTranslate("welcome_message", member.guildId, [`<@${member.id}>`]))
+            .setThumbnail(this.client.user.displayAvatarURL())
             .setTimestamp()
             .setImage('https://cdn-longterm.mee6.xyz/plugins/welcome/images/746856547086499893/4082029a18254e51899639eef1dcbd721225458ac8255317aa7af2bdf77e1c66.gif')
     

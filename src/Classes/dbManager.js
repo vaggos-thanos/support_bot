@@ -57,6 +57,25 @@ class db_handler {
         return {done: true}
     }
 
+    async check_table(table_name) {
+        return new Promise((resolve, reject) => {
+            this.identifier.query(`SELECT * FROM INFORMATION_SCHEMA.TABLES WHERE TABLE_NAME = '${table_name}'`, (err, rows) => {
+                if (err) {
+                    reject(err);
+                }
+                if(rows.length == 0) {
+                    resolve(false);
+                } else {
+                    resolve(true);
+                }
+            })
+        })
+    }
+
+    check_table_content(table_name, key_name, key_value) {
+        
+    }
+
     async get_all_rows(table_name) {
         let while_v = true
         let Rows = []

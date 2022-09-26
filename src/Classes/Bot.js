@@ -6,6 +6,10 @@ const { Routes } = require('discord-api-types/v9');
 const db_handler = require("./dbManager");
 const ticket_service = require("../services/ticket.service");
 const mysql = require('mysql2')
+const functions = require("./functions");
+const language = require("./language");
+const anti_mod = require("../services/Anti_mod.services");
+const { ServerStatasService } = require("../services/ServerStats.services");
 class Bot extends Client {
     constructor(args) {
         super(args);
@@ -20,7 +24,11 @@ class Bot extends Client {
         this.TicketsConfigs = new Collection();
         this.voiceSessions = new Collection();
         this.dbManager = new db_handler(mysql);
-        this.ticket_service = new ticket_service(this)
+        this.ticket_service = new ticket_service(this);
+        this.functions = new functions();
+        this.language = new language(this);
+        this.Anti_mod = new anti_mod(this)
+        this.ServerStatasService = new ServerStatasService(this)
     }
 
     async InitCommands(dir) {
@@ -95,7 +103,7 @@ class Bot extends Client {
         for ( const [name, subCommand] of subCommands) {
             const slashCommandBuilder = subCommand.getSlashCommandBuilder()
             await SlashCommands.push(slashCommandBuilder.toJSON())
-            console.log(`Slash Command is Ready for Build: ${name}`)
+            console.log(`SubCommand handler is Ready for Build: ${name}`)
         }
 
         console.log(`Registering slash commands for ${GuildID}`);
@@ -121,6 +129,7 @@ class Bot extends Client {
     async Start(token) {
         await this.dbManager.login(process.env.db_host, process.env.db_user, process.env.db_password, process.env.db)
         await this.dbManager.init(['GuildConfigs', 'UsersConfigs', 'Tickets', 'TicketsConfigs'], [this.GuildConfigs, this.UsersConfigs, this.Tickets, this.TicketsConfigs]);
+        await this.language.init()
         await this.InitCommands('../commands');
         await this.InitEvents('../listeners');
         await super.login(token);
