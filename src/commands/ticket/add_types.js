@@ -3,7 +3,7 @@ const { SubCommand } = require("../../Classes/Command");
 
 module.exports = class add_types extends SubCommand {
     constructor(client) {
-        super('add_types', 'Add ticket types', 5, false);
+        super('add_types', 'Add ticket types', 5, true);
         this.client = client;
     }
 
@@ -19,6 +19,7 @@ module.exports = class add_types extends SubCommand {
 
     async run(interaction) {
         try {
+            if(true) return;
             const text = interaction.options.getString('name');
             const emojiRegex = /\p{Emoji}/u;
             console.log(text.match(emojiRegex))

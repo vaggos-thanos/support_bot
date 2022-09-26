@@ -21,7 +21,7 @@ module.exports = class set_verified_roleSubCommand extends SubCommand {
         try {
             let role = interaction.options.getRole('role');
             if(role) {
-                const update = await db_handler.update_row('GuildConfig', 'role_id', role.id, 'guild_id', interaction.guild.id)
+                const update = await this.client.dbManager.update_row('GuildConfigs', 'role_id', role.id, 'guild_id', interaction.guild.id)
                 await this.client.GuildConfigs.set(interaction.guild.id, update.data)
 
                 interaction.reply("Welcome role set to " + role.name).then(msg => {

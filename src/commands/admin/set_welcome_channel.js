@@ -24,7 +24,7 @@ module.exports = class setWelcomeChannelCommand extends SubCommand {
             
             if(channel) {
 
-                const update = await db_handler.update_row('GuildConfig', 'welcome_channel_id', channel.id, 'guild_id', interaction.guild.id)
+                const update = await this.client.dbManager.update_row('GuildConfigs', 'welcome_channel_id', channel.id, 'guild_id', interaction.guild.id)
                 await this.client.GuildConfigs.set(interaction.guild.id, update.data)
 
                 interaction.reply("Welcome channel set to " + channel.name).then(msg => {

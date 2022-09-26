@@ -21,7 +21,7 @@ module.exports = class support_categorySubCommand extends SubCommand {
         try {
             let channel = interaction.options.getChannel('channel');
             if(channel != undefined) {
-                const update = await db_handler.update_row('GuildConfig', 'wfs_category_id', channel.id, 'guild_id', interaction.guild.id)
+                const update = await this.client.dbManager.update_row('GuildConfigs', 'wfs_category_id', channel.id, 'guild_id', interaction.guild.id)
                 await this.client.GuildConfigs.set(interaction.guild.id, update.data)
 
                 interaction.reply("wfs category set to " + channel).then(msg => {
