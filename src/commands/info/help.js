@@ -29,7 +29,7 @@ module.exports = class helpSubCommand extends SubCommand {
             interaction.reply({ embeds: [embed] })
         } catch (error) {
             console.log(error)
-            this.functions.log(`Error in Command [Commands] in ${interaction.guild.name}`)
+            this.client.functions.log(`Error in Command [Commands] in ${interaction.guild.name}`)
         }
     }
 }

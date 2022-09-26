@@ -34,20 +34,17 @@ module.exports = class saySubCommand extends SubCommand{
 			await interaction.deferReply();
 
             const message = interaction.options.getString('message');
-
-            if(this.functions.isAdmin(interaction.member)) {
-                const embed = new MessageEmbed();
-                embed.setAuthor({name: this.client.user.username, iconURL: this.client.user.displayAvatarURL()});
-                embed.setDescription(message);
-                embed.setColor('#fcba03')
-                embed.setTimestamp()
-                embed.setThumbnail(this.client.user.displayAvatarURL())
-                interaction.editReply({ embeds: [embed]});
-            }
+            const embed = new MessageEmbed();
+            embed.setAuthor({name: this.client.user.username, iconURL: this.client.user.displayAvatarURL()});
+            embed.setDescription(message);
+            embed.setColor('#fcba03')
+            embed.setTimestamp()
+            embed.setThumbnail(this.client.user.displayAvatarURL())
+            interaction.editReply({ embeds: [embed]});
 
         } catch (error) {
             console.error(error);
-            this.functions.log(`Error in Command [say] in ${interaction.guild.name}`, error)
+            this.client.functions.log(`Error in Command [say] in ${interaction.guild.name}`, error)
         }
 
     }

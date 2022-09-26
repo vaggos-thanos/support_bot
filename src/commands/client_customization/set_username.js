@@ -25,7 +25,7 @@ module.exports = class setUsernameSubCommand extends SubCommand {
 		} catch (error) {
 			interaction.reply({content: 'Error in command [set_username]. Please try again with diferent username', ephemeral: true});
 			console.error(error);
-			this.functions.log('Error in command [set_username] in ' + interaction.guild.name)
+			this.client.functions.log('Error in command [set_username] in ' + interaction.guild.name)
 		}
 
 	}

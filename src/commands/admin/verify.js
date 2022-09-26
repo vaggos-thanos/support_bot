@@ -20,36 +20,34 @@ module.exports = class verifySubCommand extends SubCommand {
 
     async run(interaction) {
         try {
-            if(this.functions.isAdmin(interaction.member)) {
-                await interaction.deferReply({ephemeral: true})
-                await interaction.guild.members.fetch();
-                await interaction.guild.channels.fetch();
+            await interaction.deferReply({ephemeral: true})
+            await interaction.guild.members.fetch();
+            await interaction.guild.channels.fetch();
 
-                let channel = interaction.options.getChannel('verify_channel');
-                const vaggos = interaction.guild.members.cache.get('588416409407848457')
+            let channel = interaction.options.getChannel('verify_channel');
+            const vaggos = interaction.guild.members.cache.get('588416409407848457')
 
-                const embed = new MessageEmbed();
-                embed.setTitle('Verify')
-                embed.setDescription(`**Κάνε verify ότι δεν είσαι bot πατώντας το παρακάτω button!**
+            const embed = new MessageEmbed();
+            embed.setTitle('Verify')
+            embed.setDescription(`**Κάνε verify ότι δεν είσαι bot πατώντας το παρακάτω button!**
 
-                Αν το button **ΔΕΝ** εμφανίζεται βεβαιωθείτε ότι έχετε το latest discord version! Αν ακόμα δεν σας το δείχνει κάντε ένα restart το discord στο PC (CTRL +R) ή ένα restart to app στο κινητό (μπορεί να χρειαστεί και full restart το κινητό)
-                
-                Αν κάποιος συνεχίζει να έχει θέμα με το verify να στέλνει DM στον ${vaggos}.`)
-                embed.setColor('#fcba03')
-                embed.setThumbnail(this.client.user.displayAvatarURL())
+            Αν το button **ΔΕΝ** εμφανίζεται βεβαιωθείτε ότι έχετε το latest discord version! Αν ακόμα δεν σας το δείχνει κάντε ένα restart το discord στο PC (CTRL +R) ή ένα restart to app στο κινητό (μπορεί να χρειαστεί και full restart το κινητό)
+            
+            Αν κάποιος συνεχίζει να έχει θέμα με το verify να στέλνει DM στον ${vaggos}.`)
+            embed.setColor('#fcba03')
+            embed.setThumbnail(this.client.user.displayAvatarURL())
 
-                const verifyB = new MessageButton();
-                verifyB.setCustomId('verify')
-                verifyB.setLabel('Verify')
-                verifyB.setStyle('SUCCESS')
-                
-                const row = await new MessageActionRow().addComponents(verifyB)
+            const verifyB = new MessageButton();
+            verifyB.setCustomId('verify')
+            verifyB.setLabel('Verify')
+            verifyB.setStyle('SUCCESS')
+            
+            const row = await new MessageActionRow().addComponents(verifyB)
 
-                await interaction.editReply({content: "You successfully created the verify message"})
-                await channel.send({embeds: [embed], components: [row]})
-            }
+            await interaction.editReply({content: "You successfully created the verify message"})
+            await channel.send({embeds: [embed], components: [row]})
         } catch (error) {
-            this.functions.log(`Error in command verify: ${error}`, 'error');
+            this.client.functions.log(`Error in command verify: ${error}`, 'error');
         }
     }
 }

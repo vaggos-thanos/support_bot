@@ -44,6 +44,8 @@ class language {
                     translated += text + " ";
                 }
             }
+        } else {
+            translated = translation[key];
         }
         return translated;
     }

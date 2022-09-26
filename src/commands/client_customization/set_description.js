@@ -23,7 +23,7 @@ module.exports = class setDescriptionSubCommand extends SubCommand {
 
 		// } catch (error) {
 		// 	console.error(error);
-		// 	this.functions.log(`Error in Command [Ping] in ${interaction.guild.name}`, error)
+		// 	this.client.functions.log(`Error in Command [Ping] in ${interaction.guild.name}`, error)
 		// }
 
 	}

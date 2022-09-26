@@ -19,21 +19,19 @@ module.exports = class set_verified_roleSubCommand extends SubCommand {
 
     async run(interaction) {
         try {
-            if(this.functions.isAdmin(interaction.member)) {
-                let role = interaction.options.getRole('role');
-                if(role) {
-                    const update = await db_handler.update_row('GuildConfig', 'role_id', role.id, 'guild_id', interaction.guild.id)
-                    await this.client.GuildConfigs.set(interaction.guild.id, update.data)
+            let role = interaction.options.getRole('role');
+            if(role) {
+                const update = await db_handler.update_row('GuildConfig', 'role_id', role.id, 'guild_id', interaction.guild.id)
+                await this.client.GuildConfigs.set(interaction.guild.id, update.data)
 
-                    interaction.reply("Welcome role set to " + role.name).then(msg => {
-                        setTimeout(async () => {
-                            await interaction.deleteReply();
-                        }, 5000);
-                    });
-                }
+                interaction.reply("Welcome role set to " + role.name).then(msg => {
+                    setTimeout(async () => {
+                        await interaction.deleteReply();
+                    }, 5000);
+                });
             }
         } catch (error) {
-            this.functions.log(`Error in command set_welcome_role: ${error}`, 'error');
+            this.client.functions.log(`Error in command set_welcome_role: ${error}`, 'error');
         }
     }
 }

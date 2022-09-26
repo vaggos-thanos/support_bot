@@ -46,7 +46,7 @@ module.exports = class lockSubCommand extends SubCommand {
             await interaction.reply({ embeds: [embed], ephemeral: true });
         } catch (error) {
             console.log(error)
-            this.functions.log(`Error in Command [Commands] in ${interaction.guild.name}`)
+            this.client.functions.log(`Error in Command [Commands] in ${interaction.guild.name}`)
         }
     }
 }

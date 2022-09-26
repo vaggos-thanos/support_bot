@@ -18,7 +18,12 @@ module.exports = class clearSubCommand extends SubCommand {
     }
 
     getSlashCommandBuilder() {
-        const builder = super.getSlashCommandBuilder();
+        const builder = super.getSlashCommandBuilder()
+        .addNumberOption(option => 
+            option.setName('amount')
+            .setDescription('Amount of messages to delete')
+            .setRequired(true)
+        );
         return builder;
     }
 

@@ -17,7 +17,7 @@ module.exports = class supportSubCommand extends SubCommand{
 			interaction.reply(`<@&963897569656860672> <@&829852428164923392> <@&966087756210122762> **παρακαλείστε να εξυπηρετήσετε τον/ην ${interaction.member} το συντομότερο δυνατό!**`)
 		} catch (error) {
 			console.log(error)
-			this.functions.log(`Error in Command [support] in ${interaction.guild.name}`, error)
+			this.client.functions.log(`Error in Command [support] in ${interaction.guild.name}`, error)
 		}
 
 	}

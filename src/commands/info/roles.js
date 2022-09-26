@@ -93,13 +93,13 @@ module.exports = class rolesSubCommand extends SubCommand {
 			}
 
 			while(while_state) {
-				this.functions.sleep(100);
+				this.client.functions.sleep(100);
 			}
 
 			interaction.editReply({ embeds: Embeds, ephemeral: true });
 
 		} catch (error) {
-			this.functions.log(`Error in Command [roles] in ${interaction.guild.name}`, error)
+			this.client.functions.log(`Error in Command [roles] in ${interaction.guild.name}`, error)
 		}
 
 	}

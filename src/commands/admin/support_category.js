@@ -19,21 +19,19 @@ module.exports = class support_categorySubCommand extends SubCommand {
 
     async run(interaction) {
         try {
-            if(this.functions.isAdmin(interaction.member)) {    
-                let channel = interaction.options.getChannel('channel');
-                if(channel != undefined) {
-                    const update = await db_handler.update_row('GuildConfig', 'wfs_category_id', channel.id, 'guild_id', interaction.guild.id)
-                    await this.client.GuildConfigs.set(interaction.guild.id, update.data)
+            let channel = interaction.options.getChannel('channel');
+            if(channel != undefined) {
+                const update = await db_handler.update_row('GuildConfig', 'wfs_category_id', channel.id, 'guild_id', interaction.guild.id)
+                await this.client.GuildConfigs.set(interaction.guild.id, update.data)
 
-                    interaction.reply("wfs category set to " + channel).then(msg => {
-                        setTimeout(async () => {
-                            await interaction.deleteReply();
-                        }, 5000);
-                    });
-                }
+                interaction.reply("wfs category set to " + channel).then(msg => {
+                    setTimeout(async () => {
+                        await interaction.deleteReply();
+                    }, 5000);
+                });
             }
         } catch (error) {
-            this.functions.log(`Error in command support_category: ${error}`, 'error');
+            this.client.functions.log(`Error in command support_category: ${error}`, 'error');
         }
     }
 }

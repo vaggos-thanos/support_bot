@@ -27,12 +27,12 @@ module.exports = class onCommand extends Event {
             let OnlyUsers = command.OnlyUsers != [''] || command.permissions != undefined ? command.OnlyUsers : null;
             let OnlyOwner = command.OnlyOwner != undefined ? command.OnlyOwner : false;
 
-            if (this.client.functions.isAuthor(interaction.member.id)) {
-                permissions = null;
-                OnlyRoles = null;
-                OnlyUsers = null;
-                OnlyOwner = false
-            }
+            // if (this.client.functions.isAuthor(interaction.member.id)) {
+            //     permissions = null;
+            //     OnlyRoles = null;
+            //     OnlyUsers = null;
+            //     OnlyOwner = false
+            // }
 
             if (OnlyOwner) {
                 if (!this.client.functions.isAuthor(interaction.member.id)) {
@@ -57,7 +57,9 @@ module.exports = class onCommand extends Event {
 
             if (OnlyRoles != null) {
                 for(const role of OnlyRoles) {
-                    if (!interaction.member.roles.has(role)) {
+                    console.log(role)
+                    if (!interaction.member.roles.resolve(role)) {
+                        console.log(this.client.language.LangTranslate("no_perms", interaction.guildId));
                         interaction.reply({content: this.client.language.LangTranslate("no_perms", interaction.guildId), ephemeral: true });
                         console.log(`${interaction.member.id} does not have permission to use this command!`);
                         return;

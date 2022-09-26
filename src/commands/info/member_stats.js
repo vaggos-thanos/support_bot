@@ -19,7 +19,7 @@ module.exports = class member_statsSubCommand extends SubCommand {
     }
 
     async run(interaction) {
-        const user = interaction.options.getUser('member');
+        const user = interaction.options.getUser('user');
         const member = interaction.guild.members.cache.get(user.id);
         
         const joined_server = member.joinedAt

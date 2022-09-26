@@ -28,7 +28,7 @@ module.exports = class pingSubCommand extends SubCommand {
 
 		} catch (error) {
 			console.error(error);
-			this.functions.log(`Error in Command [Ping] in ${interaction.guild.name}`)
+			this.client.functions.log(`Error in Command [Ping] in ${interaction.guild.name}`)
 		}
 
 	}

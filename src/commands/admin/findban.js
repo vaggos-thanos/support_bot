@@ -78,7 +78,7 @@ module.exports = class findbanSubCommand extends SubCommand {
             }
         } catch (error) {
             console.log(error)
-            this.functions.log(`Error in Command [Commands] in ${interaction.guild.name}`)
+            this.client.functions.log(`Error in Command [Commands] in ${interaction.guild.name}`)
         }
     }
 }

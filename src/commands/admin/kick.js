@@ -4,7 +4,17 @@ const { SubCommand } = require('../../Classes/Command');
 
 module.exports = class kickSubCommand extends SubCommand {
     constructor(client) {
-        super('kick', 'Kick a member from the server', 0, false);
+        super('kick', 'Kick a member from the server', 0, false, [], [
+            "829852428164923392",
+            "1000872316382752882",
+            "966087756210122762", 
+            "985666598792749106", 
+            "970563614593413151", 
+            "970175894167621723", 
+            "956181908746817546", 
+            "982314001797103737", 
+            "815650011287126067"
+        ]);
         this.client = client;
     }
 
@@ -44,7 +54,7 @@ module.exports = class kickSubCommand extends SubCommand {
             await user.send({embeds: [embed]})
         } catch (error) {
             console.log(error)
-            this.functions.log(`Error in Command [Commands] in ${interaction.guild.name}`)
+            this.client.functions.log(`Error in Command [Commands] in ${interaction.guild.name}`)
         }
     }
 }

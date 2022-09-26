@@ -28,7 +28,7 @@ module.exports = class membersSubCommand extends SubCommand {
 			const memberss = []
 			let counter = 0;
 
-			for ([id, member] of members) {
+			for (const [id, member] of members) {
 				if(member.roles.cache.has(role.id)) {
 					counter++;
 					const content = `<@${member.id}> 🟡 ` + '`' + member.user.tag + '`' + `\n`; 
@@ -76,7 +76,7 @@ module.exports = class membersSubCommand extends SubCommand {
 				}
 				embed.setColor('#fcba03')
 
-				for (data of new_members[i]) {
+				for (const data of new_members[i]) {
 					fields[(iiii+1)%fieldCount] += data[0]; // first 12 characters of players name
 					iiii++
 				}
@@ -96,14 +96,14 @@ module.exports = class membersSubCommand extends SubCommand {
 			}
 
 			while(while_state) {
-				this.functions.sleep(10);
+				this.client.functions.sleep(10);
 			}
 
 			interaction.editReply({ embeds: Embeds });
 
 		} catch (error) {
 			console.error(error);
-			this.functions.log(`Error in Command [Members] in ${interaction.guild.name}`)
+			this.client.functions.log(`Error in Command [Members] in ${interaction.guild.name}`)
 		}
 	}
 }
