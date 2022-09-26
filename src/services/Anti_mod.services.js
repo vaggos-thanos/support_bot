@@ -74,7 +74,20 @@ class anti_mod {
             await this.disable_bot(interaction)
             return true;
         }
-        this.client.functions.log(`${ansiColors.yellow("[Anti-Mod]")} Command [${interaction.commandName}] in ${interaction.guild.name}`)
+        let SubCommandName = null;
+        if(interaction.options._subcommand != null) {
+            this.client.subCommands.get(interaction.commandName).subCommands.forEach(subCommand => {
+                const subCommandName = new subCommand(this.client)
+                if(subCommandName.name == interaction.options._subcommand) {
+                    SubCommandName = subCommandName 
+    
+                }    
+            })
+        }
+        
+        const command = SubCommandName == null ? this.client.commands.get(interaction.commandName) : SubCommandName;
+        
+        this.client.functions.log(`${ansiColors.yellow("[Anti-Mod]")} Command [${command.name}] in ${interaction.guild.name}`)
         const member = interaction.options.getUser('user');
         if(await this.check_command(interaction)) {
             if(this.isBotOwner(member) == false) {

@@ -9,13 +9,15 @@ module.exports = class onCommand extends Event {
     async run(interaction) {
         if (!interaction.isCommand()) return;
         let SubCommandName = null;
-        this.client.subCommands.get(interaction.commandName).subCommands.forEach(subCommand => {
-            const subCommandName = new subCommand(this.client)
-            if(subCommandName.name == interaction.options._subcommand) {
-                SubCommandName = subCommandName 
-
-            }    
-        })
+        if(interaction.options._subcommand != null) {
+            this.client.subCommands.get(interaction.commandName).subCommands.forEach(subCommand => {
+                const subCommandName = new subCommand(this.client)
+                if(subCommandName.name == interaction.options._subcommand) {
+                    SubCommandName = subCommandName 
+    
+                }    
+            })
+        }
         
         const command = SubCommandName == null ? this.client.commands.get(interaction.commandName) : SubCommandName;
         if (!command) return;
@@ -73,7 +75,6 @@ module.exports = class onCommand extends Event {
                     }
                 }
             }
-            console.log(`${interaction.member.id} used the ${interaction.commandName} command!`);
             await command.run(interaction);
         } catch (error) {
             console.error(error);

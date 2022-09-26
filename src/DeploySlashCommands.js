@@ -10,4 +10,4 @@ const client = new Bot({
     ]
 })
 
-client.SlashCommandBuild("971378969020629012", "669886758091096095", 'local')
+client.SlashCommandBuild("971378969020629012", "746856547086499893", 'local')
