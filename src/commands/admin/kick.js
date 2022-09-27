@@ -38,7 +38,6 @@ module.exports = class kickSubCommand extends SubCommand {
             const user = interaction.options.getUser('user');
             const reason = interaction.options.getString('reason');
 
-            await interaction.guild.members.kick(user, {reason: reason == null ? "There is no reason" : reason});
 
             const embed = new MessageEmbed()
             .setTitle('You have been kicked')
@@ -51,7 +50,12 @@ module.exports = class kickSubCommand extends SubCommand {
             .setColor('#ff0000')
 
             await interaction.reply({ embeds: [embed2], ephemeral: true });
-            await user.send({embeds: [embed]})
+            await user.send({embeds: [embed]}).catch(() => {
+                console.log("Can't send message to user")
+            })
+
+            await interaction.guild.members.kick(user, {reason: reason == null ? "There is no reason" : reason});
+
         } catch (error) {
             console.log(error)
             this.client.functions.log(`Error in Command [Commands] in ${interaction.guild.name}`)

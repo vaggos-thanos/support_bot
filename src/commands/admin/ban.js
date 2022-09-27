@@ -37,8 +37,7 @@ module.exports = class banSubCommand extends SubCommand {
         try {
             const user = interaction.options.getUser('user');
             const reason = interaction.options.getString('reason');
-
-            await interaction.guild.members.ban(user, {reason: reason == null ? "There is no reason" : reason});
+            console.log(reason)
 
             const embed = new MessageEmbed()
             .setTitle('You have been banned')
@@ -48,14 +47,19 @@ module.exports = class banSubCommand extends SubCommand {
 
             const embed2 = new MessageEmbed()
             .setTitle('User has been banned')
-            .setDescription(`${user.tag} has been banned from ${interaction.guild.name} for \n `+ "```" + `${rereason == null ? "There is no reason" : reasonason}` + "```")
+            .setDescription(`${user.tag} has been banned from ${interaction.guild.name} for \n `+ "```" + `${reason == null ? "There is no reason" : reason}` + "```")
             .setColor('#ff0000')
 
             await interaction.reply({ embeds: [embed2], ephemeral: true });
 
-            await user.send({embeds: [embed]})
+            await user.send({embeds: [embed]}).catch(() => {
+                console.log("Can't send message to user")
+            })
+            
+            await interaction.guild.members.ban(user, {reason: reason == null ? "There is no reason" : reason});
             
         } catch (error) {
+            interaction.editReply({ content: 'There was an error while executing this command!', ephemeral: true });
             console.log(error)
             this.client.functions.log(`Error in Command [Commands] in ${interaction.guild.name}`)
         }

@@ -33,17 +33,17 @@ module.exports = class unbanSubCommand extends SubCommand {
             const user = interaction.options.getString('userid');
             const isnum = /^\d+$/.test(user)
             const banned_user = isnum ? await interaction.guild.bans.fetch(user) : null;
- 
 
-            await interaction.guild.members.unban(banned_user);
+            await interaction.guild.members.unban(banned_user.user, "Unbanned by " + interaction.user.tag);
 
             const embed = new MessageEmbed()
             .setColor('#00ff00')
             .setTitle('User has been unbanned')
-            .setDescription(`${banned_user.tag} has been unbanned from ${interaction.guild.name}`)
+            .setDescription(`${banned_user.user.tag} has been unbanned from ${interaction.guild.name}`)
 
             await interaction.reply({ embeds: [embed], ephemeral: true });
         } catch (error) {
+            interaction.reply({ content: "User is not banned", ephemeral: true });
             console.log(error)
             this.client.functions.log(`Error in Command [Commands] in ${interaction.guild.name}`)
         }

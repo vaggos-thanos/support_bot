@@ -33,7 +33,7 @@ module.exports = class rolesSubCommand extends SubCommand {
 			await interaction.guild.members.fetch();
 
 			const roless = interaction.guild.roles.cache
-			for ([id, role] of roless) {
+			for (const [id, role] of roless) {
 				counter++;
 				const members = interaction.guild.members.cache.filter(member => member.roles.cache.has(role.id));
 				roles.push([`<@&${role.id}> ` + '`' + members.size + ' members' + '`' + `\n`]);
@@ -73,7 +73,7 @@ module.exports = class rolesSubCommand extends SubCommand {
 
 				var iiii = 0;
 
-				for (data of new_roles[i]) {
+				for (const data of new_roles[i]) {
 					fields[(iiii+1)%fieldCount] += data[0]; // first 12 characters of players name
 					iiii++
 				}
