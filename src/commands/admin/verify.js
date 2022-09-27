@@ -37,17 +37,14 @@ module.exports = class verifySubCommand extends SubCommand {
             embed.setColor('#fcba03')
             embed.setThumbnail(this.client.user.displayAvatarURL())
 
-            const verifyB = new MessageButton();
-            verifyB.setCustomId('verify')
-            verifyB.setLabel('Verify')
-            verifyB.setStyle('SUCCESS')
-            
-            const row = await new MessageActionRow().addComponents(verifyB)
+            const verify_button = this.client.buttons.get('verify_button').getButtonBuilder();
+            console.log(verify_button)            
+            const row = await new MessageActionRow().addComponents(verify_button)
 
             await interaction.editReply({content: "You successfully created the verify message"})
             await channel.send({embeds: [embed], components: [row]})
         } catch (error) {
-            this.client.functions.log(`Error in command verify: ${error}`, 'error');
+            this.client.functions.log(`Error in command verify: ${error}`, error);
         }
     }
 }

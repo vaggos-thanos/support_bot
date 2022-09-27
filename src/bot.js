@@ -3,6 +3,11 @@ const Bot = require("./Classes/Bot.js");
 const { Intents } = require("discord.js");
 
 const client = new Bot({
+    ws: { 
+        properties: { 
+            $browser: "Discord iOS" 
+        }
+    },
     intents: [
         Intents.FLAGS.GUILDS, 
         Intents.FLAGS.GUILD_MEMBERS,

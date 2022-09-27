@@ -14,10 +14,11 @@ module.exports = class onButton extends Event {
         if (!button) return;
 
         try {
+            console.log(`Button ${interaction.customId} was pressed by ${interaction.user.tag}`);
             await button.run(interaction);
         } catch (error) {
             console.error(error);
-            await interaction.reply({ embeds: [embed], ephemeral: true });
+            await interaction.reply({ content: "The buttons wasn't found", ephemeral: true });
         }
     }
 }

@@ -11,6 +11,7 @@ class claim_ticket extends Button {
         builder.setLabel("Claim Ticket");
         builder.setStyle('SUCCESS');
         builder.setEmoji('🔐')
+        builder.setCustomId(this.name)
 
         return builder;
     }

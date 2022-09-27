@@ -11,6 +11,7 @@ class close_ticket extends Button {
         builder.setLabel("Close Ticket");
         builder.setStyle('DANGER');
         builder.setEmoji('🔐')
+        builder.setCustomId(this.name)
 
         return builder;
     }

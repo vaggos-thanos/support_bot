@@ -11,7 +11,7 @@ class reopen_ticket extends Button {
         builder.setLabel("Reopen Ticket");
         builder.setStyle('SUCCESS');
         builder.setEmoji('🔓')
-
+        builder.setCustomId(this.name)
         return builder;
     }
 

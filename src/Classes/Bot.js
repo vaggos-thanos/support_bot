@@ -126,12 +126,29 @@ class Bot extends Client {
         }
     }
 
+    async initButtons(dir) {
+        const buttons = fs.readdirSync(path.join(__dirname, dir))
+        for (const file of buttons) {
+            if(file.endsWith('.js')) {
+                const CmdFile = await require(path.join(__dirname, dir, file))
+                const button = new CmdFile(this)
+                await this.buttons.set(button.name, button)
+                console.log(`Loaded button: ${file}`)
+            } else if (fs.lstatSync(path.join(__dirname, dir, file)).isDirectory()) {
+                this.initButtons(path.join(dir, file))
+            } else {
+                console.log(`Ignored file: ${file}`)
+            }
+        }
+    }
+    
     async Start(token) {
         await this.dbManager.login(process.env.db_host, process.env.db_user, process.env.db_password, process.env.db)
         await this.dbManager.init(['GuildConfigs', 'UsersConfigs', 'Tickets', 'TicketsConfigs'], [this.GuildConfigs, this.UsersConfigs, this.Tickets, this.TicketsConfigs]);
         await this.language.init()
         await this.InitCommands('../commands');
         await this.InitEvents('../listeners');
+        await this.initButtons('../buttons');
         await super.login(token);
     }
 

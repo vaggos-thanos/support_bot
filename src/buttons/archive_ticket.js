@@ -11,6 +11,7 @@ class archive_ticket extends Button {
         builder.setLabel("Archive Ticket");
         builder.setStyle('PRIMARY');
         builder.setEmoji('📁')
+        builder.setCustomId(this.name)
 
         return builder;
     }

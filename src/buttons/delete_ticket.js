@@ -11,6 +11,7 @@ class delete_ticket extends Button {
         builder.setLabel("Delete Ticket");
         builder.setStyle('DANGER');
         builder.setEmoji('🔒')
+        builder.setCustomId(this.name)
 
         return builder;
     }
