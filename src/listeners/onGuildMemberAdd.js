@@ -21,7 +21,7 @@ module.exports = class onGuildMemberAdd extends Event {
     
             channel.send({embeds: [embed] });    
         } catch (error) {
-            functions.log('there was an error in the guildMemberAdd event: ' + error);
+            this.functions.log('there was an error in the guildMemberAdd event: ' + error);
         }
     }
 }
