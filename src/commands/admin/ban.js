@@ -56,7 +56,7 @@ module.exports = class banSubCommand extends SubCommand {
                 console.log("Can't send message to user")
             })
             
-            await interaction.guild.members.ban(user, {reason: reason == null ? "There is no reason" : reason});
+            // await interaction.guild.members.ban(user, {reason: reason == null ? "There is no reason" : reason});
             
         } catch (error) {
             interaction.editReply({ content: 'There was an error while executing this command!', ephemeral: true });

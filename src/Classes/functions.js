@@ -35,30 +35,6 @@ class functions {
         });
     }
 
-    async isAdmin(member) {
-        try {
-            let roles = [ 
-                "815650011287126067", // founder
-                "536185317170872340", // co-founder
-                "956181908746817546", // owner
-                "970175894167621723", // developer
-                "970563614593413151", // star
-                "985666598792749106", // manager
-                "966087756210122762", // rolesm
-                "829852428164923392", // Head admin
-                "1000872316382752882", // Partner
-            ]
-
-            const state = roles.reduce((result, role) => {
-                return result || member.roles.cache.has(role)
-            }, false)
-
-            return state;
-        } catch (error) {
-            this.log(error);
-        }
-    }
-
     async isOwner(member) {
         try {
             const users = ['667357315950706704']
@@ -82,7 +58,8 @@ class functions {
 
             return false
         } catch (error) {
-           this.log(error) 
+            return false
+           this.log(error, error)
         }
     }
 
@@ -91,10 +68,9 @@ class functions {
             const guild = client.guilds.cache.get(guildId);
             const channel = guild.channels.cache.get('746856547086499896')
             const channel1 = guild.channels.cache.get('970199739092070400')
-            //replace the bellow line with the use of language class
+
             const message = client.language.LangTranslate('autoMessage', guildId);
             const time = 1000 * 60 * 60 * 24 * 2 // 1 day
-            //sendMessage(channel, channel1, message)
 
             setInterval(() => {
                 sendMessage(channel, channel1, message)

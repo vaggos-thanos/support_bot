@@ -10,7 +10,7 @@ const functions = require("./functions");
 const language = require("./language");
 const anti_mod = require("../services/Anti_mod.services");
 const { ServerStatasService } = require("../services/ServerStats.services");
-class Bot extends Client {
+module.exports = class Bot extends Client {
     constructor(args) {
         super(args);
 
@@ -156,5 +156,3 @@ class Bot extends Client {
         console.log("test")
     }
 }
-
-module.exports = Bot;

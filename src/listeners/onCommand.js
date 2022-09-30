@@ -28,7 +28,7 @@ module.exports = class onCommand extends Event {
             let OnlyUsers = command.OnlyUsers != [''] || command.permissions != undefined ? command.OnlyUsers : null;
             let OnlyOwner = command.OnlyOwner != undefined ? command.OnlyOwner : false;
 
-            if (this.client.functions.isAuthor(interaction.member.id)) {
+            if (await this.client.functions.isAuthor(interaction.member.id)) {
                 permissions = null;
                 OnlyRoles = null;
                 OnlyUsers = null;
