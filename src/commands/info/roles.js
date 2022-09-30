@@ -1,17 +1,29 @@
 const { MessageEmbed } = require('discord.js');
 const { SlashCommandBuilder } = require('@discordjs/builders');
+const { SubCommand } = require('../../Classes/Command');
 
-module.exports = {
-	name: 'roles',
-    category: 'info',
-    runCommand: true,
-    cooldown: 5, /* secoonds */
-    description: 'List all the roles',
- 
-	data: new SlashCommandBuilder()
-	.setName('roles')
-	.setDescription('Show the roles of the server'),
-	async execute (client, db_handler, interaction) {
+module.exports = class rolesSubCommand extends SubCommand {
+	constructor(client) {
+		super('roles', 'List all the roles', 0, false, [], [
+            "829852428164923392",
+            "1000872316382752882",
+            "966087756210122762", 
+            "985666598792749106", 
+            "970563614593413151", 
+            "970175894167621723", 
+            "956181908746817546", 
+            "982314001797103737", 
+            "815650011287126067"
+        ]);
+		this.client = client;
+	}
+
+	getSlashCommandBuilder() {
+		const builder = super.getSlashCommandBuilder()
+		return builder;
+	}
+	
+	async run(interaction) {
 		try {
 			await interaction.deferReply({ephemeral: true})
 
@@ -21,7 +33,7 @@ module.exports = {
 			await interaction.guild.members.fetch();
 
 			const roless = interaction.guild.roles.cache
-			for ([id, role] of roless) {
+			for (const [id, role] of roless) {
 				counter++;
 				const members = interaction.guild.members.cache.filter(member => member.roles.cache.has(role.id));
 				roles.push([`<@&${role.id}> ` + '`' + members.size + ' members' + '`' + `\n`]);
@@ -54,14 +66,14 @@ module.exports = {
 				fields.fill('');
 	
 				const embed = new MessageEmbed();
-				embed.setAuthor({name: client.user.username, iconURL: client.user.displayAvatarURL()});
+				embed.setAuthor({name: this.client.user.username, iconURL: this.client.user.displayAvatarURL()});
 				embed.setColor('#fcba03')
 				embed.setTimestamp()
 				embed.setThumbnail(interaction.guild.iconURL())
 
 				var iiii = 0;
 
-				for (data of new_roles[i]) {
+				for (const data of new_roles[i]) {
 					fields[(iiii+1)%fieldCount] += data[0]; // first 12 characters of players name
 					iiii++
 				}
@@ -81,14 +93,14 @@ module.exports = {
 			}
 
 			while(while_state) {
-				functions.sleep(100);
+				this.client.functions.sleep(100);
 			}
 
 			interaction.editReply({ embeds: Embeds, ephemeral: true });
 
 		} catch (error) {
-			functions.log(`Error in Command [roles] in ${interaction.guild.name}`, error)
+			this.client.functions.log(`Error in Command [roles] in ${interaction.guild.name}`, error)
 		}
 
-	},
+	}
 };

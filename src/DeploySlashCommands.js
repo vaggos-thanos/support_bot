@@ -1,18 +1,13 @@
 require('dotenv').config();
-const Bot = require("./Classes/Bot.js");
 const { Intents } = require("discord.js");
+const Bot = require("./Classes/Bot.js");
 
 const client = new Bot({
-    ws: { 
-        properties: { 
-            $browser: "Discord iOS" 
-        }
-    },
     intents: [
         Intents.FLAGS.GUILDS, 
         Intents.FLAGS.GUILD_MEMBERS,
         Intents.FLAGS.GUILD_VOICE_STATES,
     ]
-});
+})
 
-client.Start(process.env.TOKEN);
+client.SlashCommandBuild("971378969020629012", "746856547086499893", 'local')

@@ -1,23 +1,25 @@
 const { SlashCommandBuilder } = require('@discordjs/builders');
 const { MessageEmbed } = require('discord.js');
+const { SubCommand } = require('../../Classes/Command');
 
-module.exports = {
-    name: 'member_stats',
-    category: 'info',
-    runCommand: true,
-    cooldown: 5, /* secoonds */
-    description: 'shows the stats of a member',
+module.exports = class member_statsSubCommand extends SubCommand {
+    constructor(client) {
+        super('member_stats', 'shows the stats of a member', 0, false);
+        this.client = client;
+    }
 
-    data: new SlashCommandBuilder()
-    .setName('member_stats')
-    .setDescription('Shows the stats of a member')
-    .addUserOption(option => 
-        option.setName('member')
-        .setDescription('The member you want to see the stats')
-        .setRequired(true)
-    ),
-    async execute (client, db_handler, interaction) {
-        const user = interaction.options.getUser('member');
+    getSlashCommandBuilder() {
+        const builder = super.getSlashCommandBuilder();
+        builder.addUserOption(option =>
+            option.setName('user')
+                .setDescription('The user to get the stats of')
+                .setRequired(true)
+        );
+        return builder;
+    }
+
+    async run(interaction) {
+        const user = interaction.options.getUser('user');
         const member = interaction.guild.members.cache.get(user.id);
         
         const joined_server = member.joinedAt
@@ -40,7 +42,7 @@ module.exports = {
             user_rolesC++ 
         }
         const embed = new MessageEmbed()
-        embed.setAuthor({name: client.user.tag, iconURL: client.user.displayAvatarURL()})
+        embed.setAuthor({name: this.client.user.tag, iconURL: this.client.user.displayAvatarURL()})
         embed.setTitle(`${username}'s stats`)
         embed.addFields(
             {name: "**User's Personal Info**", value: "⬇️", inline: false},

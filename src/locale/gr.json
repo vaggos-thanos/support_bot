@@ -1,0 +1,13 @@
+{
+    "no_perms": "You don't have permission to use this command.",
+    "error_on_command": "An error occurred while executing this command!",
+    "auto_message": "👋 Γειά σας @everyone, Εαν θέλετε να βρείτε τα Socials μου, τοτε τσεκάρετε αυτό το link (https://tiny.cc/golld3n) οπου εκεί βρίσκονται όλοι οι συνδέσμοι και τα προσωπικά μου socials.",
+
+    "members": "Συνολικά μέλη",
+    "channels": "Συνολικά κανάλια",
+    "roles": "Συνολικοι ρόλοι",
+    "boosts": "Συνολικά boosts",
+
+    "welcome_message": "👋Γεια **member** καλωσήρθες στο 👑𝐆𝐎𝐋𝐃𝟑𝐍'𝐒 𝐂𝐎𝐌𝐌𝐔𝐍𝐈𝐓𝐘✌, διάβασε τους κανόνες και προσπάθησε να τους εφαρμώσεις!"
+
+}

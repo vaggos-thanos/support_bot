@@ -1,29 +1,31 @@
 const { MessageEmbed } = require('discord.js');
 const { SlashCommandBuilder } = require('@discordjs/builders');
+const { SubCommand } = require('../../Classes/Command');
 
-module.exports = {
-	name: 'set_avatar',
-    category: 'client_customization',
-    runCommand: true,
-    cooldown: 5, /* secoonds */
-    description: 'Set the avatar of the bot',
- 
-	data: new SlashCommandBuilder()
-	.setName('set_avatar')
-	.setDescription('set the avatar of the bot')
-    .addAttachmentOption(option => 
-        option.setName('avatar')
-        .setDescription('the avatar for the bot')
-        .setRequired(true)
-    ),
-	async execute (client, db_handler, interaction) {
+module.exports = class setAvatarSubCommand extends SubCommand {
+    constructor(client) {
+        super('set_avatar', 'Set the avatar of the bot', 0, true);
+        this.client = client;
+    }
+
+    getSlashCommandBuilder() {
+        const builder = super.getSlashCommandBuilder()
+        .addAttachmentOption(option => 
+            option.setName('avatar')
+            .setDescription('the avatar for the bot')
+            .setRequired(true)
+        )
+        return builder;
+    }
+
+	async run(interaction) {
 		try {
             const avatar = interaction.options.getAttachment('avatar');
-            await client.user.setAvatar(avatar.url);
+            await this.client.user.setAvatar(avatar.url);
             await interaction.reply({content: 'Avatar set', ephemeral: true});
 		} catch (error) {
 			console.error(error);
-			functions.log('Error in command [set_avatar] in ' + interaction.guild.name)
+			this.client.functions.log('Error in command [set_avatar] in ' + interaction.guild.name)
 		}
 
 	}

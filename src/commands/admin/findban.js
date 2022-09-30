@@ -1,22 +1,34 @@
 const { MessageEmbed } = require('discord.js');
 const { SlashCommandBuilder } = require('@discordjs/builders');
+const { SubCommand } = require('../../Classes/Command');
 
-module.exports = {
-    name: 'findban',
-    category: 'admin',
-    runCommand: true,
-    cooldown: 5, /* secoonds */
-    description: 'Find a ban',
+module.exports = class findbanSubCommand extends SubCommand {
+    constructor(client) {
+        super('findban', 'Find a ban', 0, false, [], [
+            "829852428164923392",
+            "1000872316382752882",
+            "966087756210122762", 
+            "985666598792749106", 
+            "970563614593413151", 
+            "970175894167621723", 
+            "956181908746817546", 
+            "982314001797103737", 
+            "815650011287126067"
+        ]);
+        this.client = client;
+    }
 
-    data: new SlashCommandBuilder()
-    .setName('findban')
-    .setDescription('Find a ban')
-    .addStringOption(option =>
-        option.setName('userid')
-        .setDescription('The Banned user to find')
-        .setRequired(true)
-    ),
-    async execute (client, db_handler, interaction) {
+    getSlashCommandBuilder() {
+        const builder = super.getSlashCommandBuilder()
+        .addStringOption(option =>
+            option.setName('userid')
+            .setDescription('The Banned user to find')
+            .setRequired(true)
+        )
+        return builder;
+    }
+
+    async run(interaction) {
         try {
             const user = interaction.options.getString('userid');
             const isnum = /^\d+$/.test(user)
@@ -31,7 +43,7 @@ module.exports = {
                 const username = `${member.username}#${member.discriminator}`
                 
                 const embed = new MessageEmbed()
-                embed.setAuthor({name: client.user.tag, iconURL: client.user.displayAvatarURL()})
+                embed.setAuthor({name: this.client.user.tag, iconURL: this.client.user.displayAvatarURL()})
                 embed.setTitle(`${username}'s stats`)
                 embed.addFields(
                     {name: "**User's Personal Info**", value: "⬇️", inline: false},
@@ -60,13 +72,13 @@ module.exports = {
                 .setTitle('Δέν Βρέθηκε κάποιο Ban!') 
                 .setDescription(`${user} was not found`)
                 .setTimestamp()
-                .setThumbnail(client.user.displayAvatarURL())
+                .setThumbnail(this.client.user.displayAvatarURL())
                 await interaction.reply({ embeds: [embed], ephemeral: true });
 
             }
         } catch (error) {
             console.log(error)
-            functions.log(`Error in Command [Commands] in ${interaction.guild.name}`)
+            this.client.functions.log(`Error in Command [Commands] in ${interaction.guild.name}`)
         }
     }
 }

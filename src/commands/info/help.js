@@ -1,33 +1,35 @@
 const { MessageEmbed } = require('discord.js');
 const { SlashCommandBuilder } = require('@discordjs/builders');
+const { SubCommand } = require('../../Classes/Command');
 
-module.exports = {
-    name: 'help',
-    category: 'info',
-    runCommand: true,
-    cooldown: 5, /* secoonds */
-    description: 'Help command',
+module.exports = class helpSubCommand extends SubCommand {
+    constructor(client) {
+        super('help', 'Help command', 0, false);
+        this.client = client;
+    }
 
-    data: new SlashCommandBuilder()
-    .setName('help')
-    .setDescription('Returns the commands list'),
-    async execute (client, db_handler, interaction) {
+    getSlashCommandBuilder() {
+        const builder = super.getSlashCommandBuilder();
+        return builder;
+    }
+    
+    async run(interaction) {
         try {
             const embed = new MessageEmbed();
-            embed.setAuthor({name: client.user.username, iconURL: client.user.displayAvatarURL()});
-            for ([id, data] of client.commands) {
+            embed.setAuthor({name: this.client.user.username, iconURL: this.client.user.displayAvatarURL()});
+            for (const [id, data] of this.client.commands) {
                 if (id !== undefined && data.description !== undefined ) {
                     embed.addField(`➡️ Command: /${id}`, '`' + `-> ${data.description}` + '`')  
                 }
             }
             embed.setColor('#fcba03')
             embed.setTimestamp()
-            embed.setThumbnail(client.user.displayAvatarURL())
+            embed.setThumbnail(this.client.user.displayAvatarURL())
 
-            interaction.reply({ embeds: [embed]})
+            interaction.reply({ embeds: [embed] })
         } catch (error) {
             console.log(error)
-            functions.log(`Error in Command [Commands] in ${interaction.guild.name}`)
+            this.client.functions.log(`Error in Command [Commands] in ${interaction.guild.name}`)
         }
     }
 }

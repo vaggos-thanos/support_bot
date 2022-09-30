@@ -1,22 +1,24 @@
 const { MessageEmbed } = require('discord.js');
 const { SlashCommandBuilder } = require('@discordjs/builders');
+const { SubCommand } = require('../../Classes/Command');
 
-module.exports = {
-	name: 'members',
-    category: 'info',
-    runCommand: true,
-    cooldown: 5, /* secoonds */
-    description: 'Show the members of the server that has a specific role',
- 
-	data: new SlashCommandBuilder()
-	.setName('members')
-	.setDescription('Show the members of the server that has a specific role')
-	.addRoleOption(option => 
-		option.setName('role')
-		.setDescription('The role to check')
-		.setRequired(true)
-	),
-	async execute (client, db_handler, interaction) {
+module.exports = class membersSubCommand extends SubCommand {
+	constructor(client) {
+		super('members', 'Show the members of the server that has a specific role', 0, false);
+		this.client = client;
+	}
+	
+	getSlashCommandBuilder() {
+		const builder = super.getSlashCommandBuilder();
+		builder.addRoleOption(option =>
+			option.setName('role')
+				.setDescription('The role to show the members of')
+				.setRequired(true)
+		);
+		return builder;
+	}
+
+	async run(interaction) {
 		try {
 			await interaction.deferReply({ephemeral: true})
 
@@ -26,7 +28,7 @@ module.exports = {
 			const memberss = []
 			let counter = 0;
 
-			for ([id, member] of members) {
+			for (const [id, member] of members) {
 				if(member.roles.cache.has(role.id)) {
 					counter++;
 					const content = `<@${member.id}> 🟡 ` + '`' + member.user.tag + '`' + `\n`; 
@@ -66,15 +68,15 @@ module.exports = {
 				var iiii = 0;
 				
 				const embed = new MessageEmbed();
-				embed.setAuthor({name: client.user.username, iconURL: client.user.displayAvatarURL()});
-				embed.setThumbnail(client.user.displayAvatarURL())
+				embed.setAuthor({name: this.client.user.username, iconURL: this.client.user.displayAvatarURL()});
+				embed.setThumbnail(this.client.user.displayAvatarURL())
 				if(i == 0) {
 					const membercount = interaction.guild.members.cache.filter(member => member.roles.cache.has(role.id)).size;
 					embed.setDescription(`${role} - ` + '`' + `${membercount} users`+ '`')
 				}
 				embed.setColor('#fcba03')
 
-				for (data of new_members[i]) {
+				for (const data of new_members[i]) {
 					fields[(iiii+1)%fieldCount] += data[0]; // first 12 characters of players name
 					iiii++
 				}
@@ -94,14 +96,14 @@ module.exports = {
 			}
 
 			while(while_state) {
-				functions.sleep(10);
+				this.client.functions.sleep(10);
 			}
 
 			interaction.editReply({ embeds: Embeds });
 
 		} catch (error) {
 			console.error(error);
-			functions.log(`Error in Command [Members] in ${interaction.guild.name}`)
+			this.client.functions.log(`Error in Command [Members] in ${interaction.guild.name}`)
 		}
 	}
 }
