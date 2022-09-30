@@ -4,7 +4,19 @@ const { SubCommand } = require('../../Classes/Command');
 
 module.exports = class membersSubCommand extends SubCommand {
 	constructor(client) {
-		super('members', 'Show the members of the server that has a specific role', 0, false);
+		super('members', 'Show the members of the server that has a specific role', 0, false, [], [
+			"815650011287126067",
+			"982314001797103737",
+			"956181908746817546",
+			"970175894167621723",
+			"970563614593413151",
+			"985666598792749106",
+			"966087756210122762",
+			"1000872316382752882",
+			"829852428164923392",
+			"963897569656860672",
+			"815650121747660881"
+		]);
 		this.client = client;
 	}
 	
