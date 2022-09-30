@@ -9,6 +9,6 @@ module.exports = class onGuildDelete extends Event {
     async run(guild) {
         await this.client.functions.log('Bot leave guild: ' + guild.name);
         await this.client.dbManager.delete_row('GuildConfigs', 'guild_id', guild.id);
-        await client.GuildConfigs.delete(guild.id);
+        await this.client.GuildConfigs.delete(guild.id);
     }
 }
