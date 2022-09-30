@@ -57,23 +57,30 @@ module.exports = class onCommand extends Event {
             }
 
             if (OnlyRoles != null) {
+                let state = true
                 for(const role of OnlyRoles) {
-                    if (!interaction.member.roles.resolve(role)) {
-                        interaction.reply({content: this.client.language.LangTranslate("no_perms", interaction.guildId), ephemeral: true });
+                    if (interaction.member.roles.resolve(role)) {
                         console.log(`${interaction.member.id} does not have permission to use this command!`);
-                        return;
+                        state = false
                     }
                 }
+
+                await this.client.functions.sleep(1000)
+                console.log(state)
+                if (state) return interaction.reply({content: this.client.language.LangTranslate("no_perms", interaction.guildId), ephemeral: true });
             }
 
             if (OnlyUsers != null) {
+                let state = true
                 for(const user of OnlyUsers) {
-                    if (interaction.member.id !== user) {
-                        interaction.reply({content: this.client.language.LangTranslate("no_perms", interaction.guildId), ephemeral: true });
+                    if (interaction.member.id == user) {
                         console.log(`${interaction.member.id} does not have permission to use this command!`);
-                        return;
+                        state = false
                     }
                 }
+
+                await this.client.functions.sleep(1000)
+                if (state) return interaction.reply({content: this.client.language.LangTranslate("no_perms", interaction.guildId), ephemeral: true });;
             }
             await command.run(interaction);
         } catch (error) {
