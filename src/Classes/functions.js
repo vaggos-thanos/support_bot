@@ -45,7 +45,8 @@ class functions {
             return state;
 
         } catch (error) {
-            this.log(error);
+           this.log(error, error)
+            return false
         }
     }
 
@@ -58,8 +59,8 @@ class functions {
 
             return false
         } catch (error) {
-            return false
            this.log(error, error)
+            return false
         }
     }
 

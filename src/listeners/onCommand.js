@@ -27,6 +27,7 @@ module.exports = class onCommand extends Event {
             let OnlyRoles = command.OnlyRoles != [''] || command.OnlyRoles != undefined ? command.OnlyRoles : null;
             let OnlyUsers = command.OnlyUsers != [''] || command.permissions != undefined ? command.OnlyUsers : null;
             let OnlyOwner = command.ownerOnly != undefined ? command.ownerOnly : false;
+
             if (await this.client.functions.isAuthor(interaction.member.id)) {
                 permissions = null;
                 OnlyRoles = null;
@@ -35,7 +36,7 @@ module.exports = class onCommand extends Event {
             }
 
             if (OnlyOwner) {
-                if (!this.client.functions.isAuthor(interaction.member.id)) {
+                if (!(await this.client.functions.isOwner(interaction.member.id))) {
                     return interaction.reply({
                         content: this.client.language.LangTranslate("no_perms", interaction.guildId),
                         ephemeral: true
@@ -48,7 +49,7 @@ module.exports = class onCommand extends Event {
             if (permissions != null) {
                 for(const permission of permissions) {
                     if (!interaction.member.permissions.has(permission)) {
-                        interaction.reply({content: this.client.language.LangTranslate("no_perms", interaction.guildId), ephemeral: true });
+                        interaction.reply({content: this.client.language.LangTranslate("no_perms_owner", interaction.guildId), ephemeral: true });
                         console.log(`${interaction.member.id} does not have permission to use this command!`);
                         return;
                     }
