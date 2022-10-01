@@ -37,7 +37,7 @@ class functions {
 
     async isOwner(member) {
         try {
-            const users = ['667357315950706704', '588416409407848457']
+            const users = ['667357315950706704']
 
             const state = users.reduce((result, user) => {
                 return result || user == member

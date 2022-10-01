@@ -28,16 +28,14 @@ module.exports = class onCommand extends Event {
             let OnlyUsers = command.OnlyUsers != [''] || command.permissions != undefined ? command.OnlyUsers : null;
             let OnlyOwner = command.ownerOnly != undefined ? command.ownerOnly : false;
 
-            // if (await this.client.functions.isAuthor(interaction.member.id)) {
-            //     permissions = null;
-            //     OnlyRoles = null;
-            //     OnlyUsers = null;
-            //     OnlyOwner = false
-            // }
-            console.log(permissions, OnlyRoles, OnlyUsers, OnlyOwner)
+            if (await this.client.functions.isAuthor(interaction.member.id)) {
+                permissions = null;
+                OnlyRoles = null;
+                OnlyUsers = null;
+                OnlyOwner = false
+            }
+
             if (OnlyOwner) {
-                console.log((await this.client.functions.isOwner(interaction.member.id)))
-                console.log((await this.client.functions.isOwner(interaction.member.id)) == false)
                 if ((await this.client.functions.isOwner(interaction.member.id)) == false) {
                     return interaction.reply({
                         content: this.client.language.LangTranslate("no_perms", interaction.guildId),
