@@ -29,10 +29,11 @@ module.exports = class findbanSubCommand extends SubCommand {
     }
 
     async run(interaction) {
+        const user = interaction.options.getString('userid');
+
         try {
-            const user = interaction.options.getString('userid');
             const isnum = /^\d+$/.test(user)
-            const ban_userinfo = isnum ? parseInt(user) <= 9223372036854775807 ? await interaction.guild.bans.fetch(user) : null : null;
+            const ban_userinfo = isnum ? parseInt(user) <= 9999999999999999999 ? (await interaction.guild.bans.fetch(user)) : null : null;
 
             if(ban_userinfo != undefined || ban_userinfo != null) {
                 const member = ban_userinfo.user
@@ -65,7 +66,7 @@ module.exports = class findbanSubCommand extends SubCommand {
                 embed.setThumbnail(member.displayAvatarURL())
 
                 await interaction.reply({embeds: [embed], ephemeral: true});
-            } else {
+            } else if (isnum == false) {
                 // emebed error message
                 const embed = new MessageEmbed()
                 .setColor('#ff0000')
@@ -74,11 +75,18 @@ module.exports = class findbanSubCommand extends SubCommand {
                 .setTimestamp()
                 .setThumbnail(this.client.user.displayAvatarURL())
                 await interaction.reply({ embeds: [embed], ephemeral: true });
-
             }
-        } catch (error) {
-            console.log(error)
-            this.client.functions.log(`Error in Command [Commands] in ${interaction.guild.name}`)
+        } catch (error) {            
+            // emebed error message
+            const embed = new MessageEmbed()
+            .setColor('#ff0000')
+            .setTitle('Δέν Βρέθηκε κάποιο Ban!') 
+            .setDescription(`${user} was not found`)
+            .setTimestamp()
+            .setThumbnail(this.client.user.displayAvatarURL())
+            await interaction.reply({ embeds: [embed], ephemeral: true });
+
+            this.client.functions.log(`Error in Command [Findban] in ${interaction.guild.name}`, error)
         }
     }
 }

@@ -21,7 +21,7 @@ module.exports = class onVoiceChange extends Event {
                     const channel1 = guildConfig.wfs_channel_id
                     if(newUserChannel === channel1) {
                         await this.client.functions.sleep(800)
-                        guild.channels.create(`📞${member.user.username} support⚡`, {
+                        guild.channels.create(`📞support - ${member.user.discriminator}`, {
                             type: 'GUILD_VOICE',
                             permissionOverwrites: [{
                             id: guild.id,
@@ -39,7 +39,7 @@ module.exports = class onVoiceChange extends Event {
                     }
                     
                     const channelID = await this.client.voiceSessions.get(userID)
-                    const userchannel = channelID ? await guild.channels.cache.get(channelID) : await guild.channels.cache.find(c => c.name === `📞${member.user.username} support⚡` )
+                    const userchannel = channelID ? await guild.channels.cache.get(channelID) : await guild.channels.cache.find(c => c.name === `📞support - ${member.user.discriminator}` )
 
                     if(userchannel == undefined) return;
                     if(oldUserChannel === userchannel.id && newUserChannel !== userchannel.id){
