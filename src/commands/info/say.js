@@ -5,7 +5,6 @@ const { SubCommand } = require('../../Classes/Command');
 module.exports = class saySubCommand extends SubCommand{
     constructor(client) {
         super('say', 'Say something', 0, false, [], [
-            "963897569656860672",
             "829852428164923392",
             "1000872316382752882",
             "966087756210122762", 
