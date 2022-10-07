@@ -17,79 +17,72 @@ module.exports = class helpSubCommand extends SubCommand {
         try {
             const embed = new MessageEmbed();
             embed.setAuthor({name: this.client.user.username, iconURL: this.client.user.displayAvatarURL()});
+            embed.setTitle('Help');
+            embed.setDescription('This is the help command');
+            
             for (const [id, data] of this.client.commands) {
                 if (id !== undefined && data.description !== undefined ) {
                     embed.addField(`➡️ Command: /${id}`, '`' + `-> ${data.description}` + '`')  
                 }
             }
+
             if(interaction.options._subcommand != null) {
                 let added = []
-                this.client.subCommands.forEach(async (MainSubCommand) => {
-                    let title = ''
-                    let description = ''
-                    MainSubCommand.subCommands.forEach(async (subCommand) => {
-                        const subCommandData = new subCommand(this.client)
-                        // console.log(subCommandData.name)
-                        let change = false
-                        // console.log(subCommandData.ownerOnly, subCommandData.permissions, subCommandData.OnlyRoles, subCommandData.OnlyUsers)
-                        if(subCommandData.ownerOnly && change == false) {
-                            if(await this.client.functions.isOwner(interaction.member.id)) {
-                                console.log('owner')
-                                title = `➡️ Command: /${MainSubCommand.name}`
-                                description += `-> name: `+ "`" +`${subCommandData.name}`+ '`' +`\n description: `+ '`' + `${subCommandData.description}\n` + '`'
-                                // change = true
+                for(const [id, data] of this.client.subCommands) {
+                    let title = ``
+                    let description = ``
+                    
+                    for(const SubCommand of data.subCommands) {
+                        const subCommand = new SubCommand(this.client)
+                        if(subCommand.ownerOnly && added.includes(subCommand.name) == false) {
+                            let i = 0
+                            if(await this.client.functions.isOwner(interaction.member.id) == false) {
+                                i++
+                                await added.push(subCommand.name)
+                                title = `➡️ Command: /${id}`
+                                description += `-> name: `+ "`" +`${subCommand.name}`+ '`' +`\n description: `+ '`' + `${subCommand.description}\n` + '`'
                             }
-                        } else if((subCommandData.permissions != null ? (subCommandData.permissions).length : 0) && change == false) {
-                            const perms = subCommandData.permissions
-                            for(const perm of perms) {
-                                if(await interaction.member.permissions.has(perm)) {
-                                    console.log('perms')
-                                    title = `➡️ Command: /${MainSubCommand.name}`
-                                    description += `-> name: `+ "`" +`${subCommandData.name}`+ '`' +`\n description: `+ '`' + `${subCommandData.description}\n` + '`'
-                                    // change = true
-                                }
-                            }
-                        } else if((subCommandData.OnlyRoles != null ? (subCommandData.OnlyRoles).length : 0) && change == false) {
-                            const roles = subCommandData.OnlyRoles
-                            for(const role of roles) {
-                                if(await interaction.member.roles.cache.has(role)) {
-                                    console.log('roles')
-                                    title = `➡️ Command: /${MainSubCommand.name}`
-                                    description += `-> name: `+ "`" +`${subCommandData.name}`+ '`' +`\n description: `+ '`' + `${subCommandData.description}\n` + '`'
-                                    // change = true
-                                }
-                            }
-                        } else if((subCommandData.OnlyUsers != null ? (subCommandData.OnlyUsers).length : 0) > 0 && change == false) {
-                            const users = subCommandData.OnlyUsers
-                            for(const user of users) {
-                                if(interaction.member.id == user) {
-                                    console.log('users')
-                                    title = `➡️ Command: /${MainSubCommand.name}`
-                                    description += `-> name: `+ "`" +`${subCommandData.name}`+ '`' +`\n description: `+ '`' + `${subCommandData.description}\n` + '`'
-                                    // change = true
-                                }
-                            }
-                        } else if (change == false) {
-                            console.log(subCommandData.name)
-                            console.log('else')
-                            title = `➡️ Command: /${MainSubCommand.name}`
-                            description += `-> name: `+ "`" +`${subCommandData.name}`+ '`' +`\n description: `+ '`' + `${subCommandData.description}\n` + '`'
-                            // change = true
                         }
-                    })
-                    console.log(title)
-                    console.log(description.length)
-                    console.log(description)
-                    if(title.length > 0 && description.length > 0) {
+
+                        if ((subCommand.permissions != null ? (subCommand.permissions).length : 0) > 0 && added.includes(subCommand.name) == false) {
+                            const perms = subCommand.permissions
+                            for(const perm of perms) {
+                                if(await interaction.member.permissions.has(perm) && added.includes(subCommand.name) == false) {
+                                    await added.push(subCommand.name)
+                                    title = `➡️ Command: /${id}`
+                                    description += `-> name: `+ "`" +`${subCommand.name}`+ '`' +`\n description: `+ '`' + `${subCommand.description}\n` + '`'
+                                }
+                            }
+                        }
+
+                        if ((subCommand.OnlyRoles != null ? (subCommand.OnlyRoles).length : 0) > 0 && added.includes(subCommand.name) == false) {
+                            const roles = subCommand.OnlyRoles
+                            for(const role of roles) {
+                                if(await interaction.member.roles.cache.has(role) && added.includes(subCommand.name) == false) {
+                                    await added.push(subCommand.name)
+                                    title = `➡️ Command: /${id}`
+                                    description += `-> name: `+ "`" +`${subCommand.name}`+ '`' +`\n description: `+ '`' + `${subCommand.description}\n` + '`'
+                                }
+                            }
+                        }
+                        
+                        if ((subCommand.OnlyUsers != null ? (subCommand.OnlyUsers).length : 0) > 0 && added.includes(subCommand.name) == false) {
+                            const users = subCommand.OnlyUsers
+                            for(const user of users && added.includes(subCommand.name) == false) {
+                                await added.push(subCommand.name)
+                                if(interaction.member.id == user) {
+                                    title = `➡️ Command: /${id}`
+                                    description += `-> name: `+ "`" +`${subCommand.name}`+ '`' +`\n description: `+ '`' + `${subCommand.description}` + '`\n'
+                                }
+                            }
+                        }
+                        
+                    }
+                    if(title.length > 0 && description.length >= 0) {
                         embed.addField(title, description)
                     }
-                })
-                // this.client.subCommands.get(interaction.commandName).subCommands.forEach(subCommand => {
-                //     const SubCommand = new subCommand(this.client)
-                //     embed.addField(`➡️ Command: /${SubCommand.name}`, '`' + `-> ${SubCommand.description}` + '`')   
-                // })
+                }
             }
-
             embed.setColor('#fcba03')
             embed.setTimestamp()
             embed.setThumbnail(this.client.user.displayAvatarURL())
