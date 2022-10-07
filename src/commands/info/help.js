@@ -19,7 +19,7 @@ module.exports = class helpSubCommand extends SubCommand {
             embed.setAuthor({name: this.client.user.username, iconURL: this.client.user.displayAvatarURL()});
             embed.setTitle('Help');
             embed.setDescription('This is the help command');
-            
+
             for (const [id, data] of this.client.commands) {
                 if (id !== undefined && data.description !== undefined ) {
                     embed.addField(`➡️ Command: /${id}`, '`' + `-> ${data.description}` + '`')  
@@ -36,7 +36,7 @@ module.exports = class helpSubCommand extends SubCommand {
                         const subCommand = new SubCommand(this.client)
                         if(subCommand.ownerOnly && added.includes(subCommand.name) == false) {
                             let i = 0
-                            if(await this.client.functions.isOwner(interaction.member.id) == false) {
+                            if(await this.client.functions.isOwner(interaction.member.id)) {
                                 i++
                                 await added.push(subCommand.name)
                                 title = `➡️ Command: /${id}`
