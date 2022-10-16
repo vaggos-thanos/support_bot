@@ -21,7 +21,12 @@ class language {
     }
 
     getLanguage(guild_id) {
-        return this.language[guild_id];
+        console.log(this.language);
+        if(this.language[guild_id] == undefined) {
+            return "en";
+        } else {
+            return this.language[guild_id];
+        }
     }
 
     setLanguage(language, guild_id) {
@@ -29,13 +34,14 @@ class language {
     }
 
     LangTranslate(key, guild_id, args) {
-
+        //TODO: fix error: Error: Cannot find module '../locale/undefined.json'
         const lang = this.getLanguage(guild_id);
         const translation = require(`../locale/${lang}.json`);
         let translated = '';
         if (args != undefined) {
             let string = translation[key].split(" ")
             let counter = 0;
+            console.log(string);
             for(const text of string) {
                 if(text.startsWith("**") && text.endsWith("**")) {
                     translated += args[counter] + " ";

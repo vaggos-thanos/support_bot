@@ -9,8 +9,11 @@ module.exports = class onReady extends Event {
     async run() {
         this.client.functions.log('Logged in as ' + this.client.user.tag);
 
+        this.client.ServerStatasService.update_stats('746856547086499893');
+
         // set the bot's presence
-        setInterval(async () => {
+        let state = true;
+        while(true) {
             const guilds = this.client.guilds.cache
             const usersCount = await guilds.reduce(async (total, guild) => {
                 return await total + guild.memberCount;
@@ -24,9 +27,12 @@ module.exports = class onReady extends Event {
                 return await total + bots;
             }, 0)
 
-            this.client.user.setActivity(`${this.client.guilds.cache.size} servers | ${usersCount - botUsers} users`, { type: 'WATCHING' });
-        }, 10000);
-        
-        this.client.ServerStatasService.update_stats('746856547086499893');
+            this.client.user.setPresence({activities: [{name: `${this.client.guilds.cache.size} servers | ${usersCount - botUsers} users` , type: 'WATCHING' }], status: "dnd"}) 
+            if(state) {
+                state = false;
+            } else {
+                new Promise(async (resolve) => setTimeout(() => resolve(true), 1000 * 10))
+            }
+        }
     }
 }
