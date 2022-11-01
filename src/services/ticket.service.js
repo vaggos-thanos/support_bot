@@ -14,6 +14,7 @@ class ticket_service {
         }
         await types.push(type)
         console.log(Types)
+        
         if(Types != undefined) {
             for(const TYPE of JSON.parse(Types.tickets_types)) {
                 if(TYPE.name == type.name) return;

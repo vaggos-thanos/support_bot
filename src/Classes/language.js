@@ -29,8 +29,16 @@ class language {
         }
     }
 
-    setLanguage(language, guild_id) {
+    async setLanguage(language, guild_id) {
         // this.language = language;
+        const update = await this.client.dbManager.update_row('GuildConfigs', 'lang', language, 'guild_id', guild_id)
+        await this.client.GuildConfigs.set(guild_id, update.data)
+
+        interaction.reply("Bot language for this server is set to: " + language).then(msg => {
+            setTimeout(async () => {
+                await interaction.deleteReply();
+            }, 5000);
+        });
     }
 
     LangTranslate(key, guild_id, args) {
